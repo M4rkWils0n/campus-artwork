@@ -12,7 +12,8 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        CoreDataRequests.getDecodeAndSaveArtworks(urlString: "http://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus")
     }
 
     override func didReceiveMemoryWarning() {
