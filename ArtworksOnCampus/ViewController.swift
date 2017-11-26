@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        CoreDataRequests.getDecodeAndSaveArtworks(urlString: "http://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus")
+        CoreDataRequests.getDecodeAndSaveArtworks(urlString: "http://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus/data.php?class=artworks&last")
     }
 
     override func didReceiveMemoryWarning() {

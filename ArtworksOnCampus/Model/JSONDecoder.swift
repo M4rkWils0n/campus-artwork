@@ -17,13 +17,13 @@ struct Artwork: Decodable {
     let id: String?
     let title: String?
     let artist: String?
-    let yearOfWork: Date?
+    let yearOfWork: String?
     let Information: String?
     let lat: String?
     let long: String?
     let locationNotes: String?
     let fileName: String?
-    let lastModified: Date?
+    let lastModified: String?
 }
 
 
