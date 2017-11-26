@@ -11,6 +11,7 @@ import CoreData
 
 class CoreDataRequests {
   
+    
     static func getDecodeAndSaveArtworks(urlString: String) {
         
         guard let url = URL(string: urlString) else { return }
@@ -54,6 +55,7 @@ class CoreDataRequests {
         }.resume()
     }
     
+    // Checks to see if Artwork Exists in core data
     static func doesArkworkExistWith(id: String) -> Bool {
         
         let fetchRequest: NSFetchRequest<CoreArtwork> = CoreArtwork.fetchRequest()
@@ -69,5 +71,20 @@ class CoreDataRequests {
         }
         
         return results.count > 0
+    }
+    
+    static func getArtworks() -> [CoreArtwork] {
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CoreArtwork")
+        var results: [CoreArtwork] = []
+        
+        do {
+            results = try PersistenceService.context.fetch(fetchRequest) as! [CoreArtwork]
+        }
+        catch {
+            print("error Fetcing data")
+        }
+        
+        return results
     }
 }

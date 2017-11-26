@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C15A45FE1FCB2F40007DE81F /* MapAndTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15A45FD1FCB2F40007DE81F /* MapAndTableVC.swift */; };
 		C1C48DC81FC72536006EC9BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C48DC71FC72536006EC9BE /* AppDelegate.swift */; };
 		C1C48DCA1FC72536006EC9BE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C48DC91FC72536006EC9BE /* ViewController.swift */; };
 		C1C48DCD1FC72536006EC9BE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1C48DCB1FC72536006EC9BE /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C15A45FD1FCB2F40007DE81F /* MapAndTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAndTableVC.swift; sourceTree = "<group>"; };
 		C1C48DC41FC72536006EC9BE /* ArtworksOnCampus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArtworksOnCampus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1C48DC71FC72536006EC9BE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C1C48DC91FC72536006EC9BE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 				C1C48DC71FC72536006EC9BE /* AppDelegate.swift */,
 				C1C48DC91FC72536006EC9BE /* ViewController.swift */,
 				C1C48DCB1FC72536006EC9BE /* Main.storyboard */,
+				C15A45FD1FCB2F40007DE81F /* MapAndTableVC.swift */,
 				C1C48DD11FC72536006EC9BE /* Assets.xcassets */,
 				C1C48DD31FC72536006EC9BE /* LaunchScreen.storyboard */,
 				C1C48DD61FC72536006EC9BE /* Info.plist */,
@@ -170,6 +173,7 @@
 				C1C48DDF1FC73EA8006EC9BE /* PersistenceService.swift in Sources */,
 				C1C48DCA1FC72536006EC9BE /* ViewController.swift in Sources */,
 				C1C48DC81FC72536006EC9BE /* AppDelegate.swift in Sources */,
+				C15A45FE1FCB2F40007DE81F /* MapAndTableVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
