@@ -11,18 +11,18 @@ import MapKit
 
 class MapAndTableVC: UIViewController {
 
-    var artworkLocations = [Dictionary<String,String>()]
     var artworksData: [CoreArtwork]?
+    var artworkTransferData: CoreArtwork?
+    
     
     @IBOutlet weak var map: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
+        map.delegate = self
         artworksData = CoreDataRequests.getArtworks()
-        
         addAnnotations()
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,34 +30,30 @@ class MapAndTableVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+     
+        let nextViewController = segue.destination as! ArtworkDescriptionVC
+        nextViewController.artworkData = artworkTransferData
     }
-    */
-
 }
-
-
 
 // Class extension for Map
 extension MapAndTableVC: MKMapViewDelegate {
 
-    func addAnnotations(){
+    // Adds annotations of stored locations to map
+    func addAnnotations() {
         
         if let artworkData = artworksData {
             
             for artwork in artworkData {
                 
+                // Creates an annotation object and assigns the artwork title and location notes
                 let annotation = MKPointAnnotation()
+                annotation.title = artwork.title
+                annotation.subtitle = artwork.locationNotes
                 
-                var lat = 0.0
-                var long = 0.0
+                var lat: Double
+                var long: Double
                 let lattitude = artwork.lat
                 let longitude = artwork.long
                 
@@ -66,13 +62,19 @@ extension MapAndTableVC: MKMapViewDelegate {
                     
                     if let strLon = longitude {
                         long = Double(strLon)!
-                        
                         annotation.coordinate = CLLocationCoordinate2DMake(lat,long)
                         map.addAnnotation(annotation)
                     }
                 }
             }
         }
+    }
+    
+    // Annotation clicked method
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
+        artworkTransferData = artworksData?.first(where: { $0.title == (view.annotation!.title)! })
+        performSegue(withIdentifier: "toDescription", sender: nil)
     }
 }
 
