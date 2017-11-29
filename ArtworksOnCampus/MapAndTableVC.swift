@@ -48,10 +48,10 @@ class MapAndTableVC: UIViewController {
         return locationsArray
     }()
     
-    
-    
     var locationManager:CLLocationManager!
+    
     @IBOutlet weak var map: MKMapView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +64,6 @@ class MapAndTableVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         determineCurrentLocation()
         table.reloadData()
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -73,11 +72,10 @@ class MapAndTableVC: UIViewController {
         nextViewController.annotationData = selectedAnnotation
     }
     
+    //Sorts annotations by distance from location
     func sortAnnotationsByDistance() {
-    
+        
         annotations = annotations.sorted(by: { $0.distanceFromLocation() < $1.distanceFromLocation() })
-
-        table.reloadData()
     }
 }
 
@@ -116,6 +114,7 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
         // other wise this function will be called every time when user location changes.
         //manager.stopUpdatingLocation()
         sortAnnotationsByDistance()
+        table.reloadData()
         
         let center = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
