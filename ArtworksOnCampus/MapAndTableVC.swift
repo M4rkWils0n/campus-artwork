@@ -11,33 +11,44 @@ import MapKit
 
 class MapAndTableVC: UIViewController {
     
-    var selectedAnnotation: CustomPointAnnotation?
+    @IBOutlet weak var table: UITableView!
     
-    let annotations: [CustomPointAnnotation] = {
-        
-        var assignedAnnotations: [CustomPointAnnotation] = []
-        var artworksData = CoreDataRequests.getArtworks()
+    // Annotation Selected on Map
+    var selectedAnnotation: Artworks?
+    
+    
+    // Array of Artworks
+    var annotations: [Artworks] = {
+
+        var artworksData = CoreDataRequests.getArtworks()    // Request from CoreData
+        var assignedAnnotations: [Artworks] = []
         
         for artwork in artworksData {
-        
-            let lat: Double?
-            let long: Double?
             
-            if let latString = artwork.location?.lat, let lonString = artwork.location?.lon {
-                
-                lat = Double(latString)
-                long = Double(lonString)
-                
-                let coordinates = CLLocationCoordinate2DMake(lat!,long!)
-                
-                let annotation = CustomPointAnnotation(id: artwork.id, title: artwork.title, artist: artwork.artist, yearOfWork: artwork.yearOfWork, information: artwork.information, locationNotes: artwork.locationNotes, fileName: artwork.fileName,coordinate: coordinates, locationGroupIndex: artwork.location?.index(ofAccessibilityElement: self))
-                
-                assignedAnnotations.append(annotation)
-            }
+            let annotation = Artworks(id: artwork.id, title: artwork.title, artist: artwork.artist, yearOfWork: artwork.yearOfWork, information: artwork.information, locationNotes: artwork.locationNotes, fileName: artwork.fileName, latString: artwork.location?.lat ,lonString: artwork.location?.lon,locationGroupIndex: artwork.location?.index(ofAccessibilityElement: self))   // Assign to Artwoks
+            
+            assignedAnnotations.append(annotation)
         }
-
+        
         return assignedAnnotations
     }()
+    
+    // TODO: Need to check if this will be used, if not delete and delete the Model ArtLocations
+    let locations: [ArtLocations] = {
+        
+        let retrievedLocations = CoreDataRequests.getLocations()
+        var locationsArray: [ArtLocations] = []
+        
+        for location in retrievedLocations {
+            
+            let retrivedLocation = ArtLocations(locationNote: location.locationNotes!, lat: location.lat!, lon: location.lon!)
+            locationsArray.append(retrivedLocation)
+        }
+        
+        return locationsArray
+    }()
+    
+    
     
     var locationManager:CLLocationManager!
     @IBOutlet weak var map: MKMapView!
@@ -52,17 +63,21 @@ class MapAndTableVC: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         determineCurrentLocation()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        table.reloadData()
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      
         let nextViewController = segue.destination as! ArtworkDescriptionVC
         nextViewController.annotationData = selectedAnnotation
+    }
+    
+    func sortAnnotationsByDistance() {
+    
+        annotations = annotations.sorted(by: { $0.distanceFromLocation() < $1.distanceFromLocation() })
+
+        table.reloadData()
     }
 }
 
@@ -82,6 +97,9 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
         
+        Artworks.userLocation = locationManager.location
+        
+        
         if CLLocationManager.locationServicesEnabled() {
             //locationManager.startUpdatingHeading()
             locationManager.startUpdatingLocation()
@@ -93,9 +111,11 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
         
         let userLocation:CLLocation = locations[0] as CLLocation
         
+        Artworks.userLocation = userLocation
         // Call stopUpdatingLocation() to stop listening for location updates,
         // other wise this function will be called every time when user location changes.
         //manager.stopUpdatingLocation()
+        sortAnnotationsByDistance()
         
         let center = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
@@ -103,6 +123,7 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
         map.setRegion(region, animated: true)
         
     }
+    
     
     func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
         
@@ -125,22 +146,27 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
         // Stops My Location causing a segue
         if annotationTitle != "My Location" {
         
-            selectedAnnotation = view.annotation as? CustomPointAnnotation
+            selectedAnnotation = view.annotation as? Artworks
             performSegue(withIdentifier: "toDescription", sender: nil)
         }
     }
 }
 
-//// Class extension for table
-//extension MapAndTableVC: UITableViewDelegate, UITableViewDataSource {
-//    
-//    
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//
-//    }
-//    
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        
-//    }
-//}
+// Class extension for table
+extension MapAndTableVC: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return annotations.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "tableCell")
+        
+        cell.textLabel!.text = annotations[indexPath.item].title
+        
+        return cell
+    }
+}
 

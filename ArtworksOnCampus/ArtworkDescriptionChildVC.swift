@@ -14,7 +14,7 @@ class ArtworkDescriptionChildVC: UIViewController {
     @IBOutlet weak var yearLabel: UILabel!
     @IBOutlet weak var informationLabel: UILabel!
         
-    var annotationData: CustomPointAnnotation?
+    var annotationData: Artworks?
     
     override func viewDidLoad() {
         super.viewDidLoad()

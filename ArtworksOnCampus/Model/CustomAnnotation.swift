@@ -9,9 +9,10 @@
 import UIKit
 import MapKit
 
-final class CustomPointAnnotation: NSObject, MKAnnotation {
+final class Artworks: NSObject, MKAnnotation {
     
-    var coordinate: CLLocationCoordinate2D
+    let coordinate: CLLocationCoordinate2D
+    let coordinateForDistance: CLLocation
     let id: Int16?
     let title: String?
     let artist: String?
@@ -20,10 +21,19 @@ final class CustomPointAnnotation: NSObject, MKAnnotation {
     let locationNotes: String?
     let fileName: String?
     let locationGroupIndex: Int?
-
+    var distanceFromUser = 0.0
+    static var userLocation: CLLocation? 
     
-    init(id: Int16?, title: String?, artist: String?, yearOfWork: String?, information: String?, locationNotes: String?, fileName: String?, coordinate: CLLocationCoordinate2D, locationGroupIndex: Int?) {
+    init(id: Int16?, title: String?, artist: String?, yearOfWork: String?, information: String?, locationNotes: String?, fileName: String?,latString: String?, lonString: String?, locationGroupIndex: Int?) {
         
+        let lat: Double
+        let long: Double
+        
+        lat = Double(latString!)!
+        long = Double(lonString!)!
+        
+        self.coordinate = CLLocationCoordinate2DMake(lat,long)
+        self.coordinateForDistance = CLLocation(latitude: lat, longitude: long)
         self.id = id
         self.title = title
         self.artist = artist
@@ -31,7 +41,16 @@ final class CustomPointAnnotation: NSObject, MKAnnotation {
         self.information = information
         self.locationNotes = locationNotes
         self.fileName = locationNotes
-        self.coordinate = coordinate
+        
         self.locationGroupIndex = locationGroupIndex
+    }
+    
+    
+
+    func distanceFromLocation() -> Double{
+      
+        let distanceCCL = Artworks.userLocation?.distance(from: self.coordinateForDistance)
+        
+        return distanceCCL!
     }
 }

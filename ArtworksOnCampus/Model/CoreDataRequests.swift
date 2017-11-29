@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 class CoreDataRequests {
   
@@ -50,6 +51,7 @@ class CoreDataRequests {
                             let newLocation = CoreLocations(context: PersistenceService.context)
                             newLocation.lat = artwork.lat
                             newLocation.lon = artwork.long
+                            newLocation.locationNotes = artwork.locationNotes
                             
                             let newArtwork = CoreArtwork(context: PersistenceService.context)
                             newArtwork.id = Int16(artwork.id!)!
@@ -116,7 +118,7 @@ class CoreDataRequests {
             print("error executing fetch request: \(error)")
         }
         
-        return result.first!
+        return result.first
     }
     
     static func getArtworks() -> [CoreArtwork] {

@@ -67,6 +67,20 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4ec-br-rZu">
                                 <rect key="frame" x="0.0" y="291.5" width="375" height="291.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="tableCell" id="Fat-hf-cdn" userLabel="tableCell">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fat-hf-cdn" id="exC-ba-VXl">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="x9I-MX-D0C" id="2aV-Tc-lcC"/>
+                                    <outlet property="delegate" destination="x9I-MX-D0C" id="bae-aU-vHt"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -129,6 +143,7 @@
                     </view>
                     <connections>
                         <outlet property="map" destination="IZp-gu-FaP" id="y0o-kZ-bM7"/>
+                        <outlet property="table" destination="4ec-br-rZu" id="7ut-xS-1hZ"/>
                         <segue destination="HqL-ft-fnz" kind="show" identifier="toDescription" id="pSe-P1-VFW"/>
                     </connections>
                 </viewController>
@@ -197,7 +212,7 @@
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pc9-jy-Tp9">
                                 <rect key="frame" x="16" y="325" width="343" height="174"/>
-                                <mutableString key="text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</mutableString>
+                                <string key="text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -238,6 +253,7 @@
                             <constraint firstItem="bR4-aB-8WV" firstAttribute="top" secondItem="Z44-Fa-xD6" secondAttribute="bottom" constant="7.5" id="vI7-ei-hyS"/>
                             <constraint firstItem="Z44-Fa-xD6" firstAttribute="top" secondItem="Zhq-ub-H14" secondAttribute="top" id="w8a-mK-WtC"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="IAw-C3-PuX"/>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="VBZ-hP-oef"/>

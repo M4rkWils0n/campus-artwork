@@ -13,7 +13,7 @@ class MarkerAnnotationView: MKMarkerAnnotationView {
 
     override var annotation: MKAnnotation? {
         willSet {
-            guard let annotation = newValue as? CustomPointAnnotation else { return }
+            guard let annotation = newValue as? Artworks else { return }
             clusteringIdentifier = String(describing: annotation.locationGroupIndex)
         }
     }

@@ -13,11 +13,12 @@
     </entity>
     <entity name="CoreLocations" representedClassName="CoreLocations" syncable="YES" codeGenerationType="class">
         <attribute name="lat" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="locationNotes" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lon" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="artworks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CoreArtwork" inverseName="location" inverseEntity="CoreArtwork" syncable="YES"/>
     </entity>
     <elements>
         <element name="CoreArtwork" positionX="-63" positionY="-18" width="128" height="180"/>
-        <element name="CoreLocations" positionX="-63" positionY="54" width="128" height="90"/>
+        <element name="CoreLocations" positionX="-63" positionY="54" width="128" height="105"/>
     </elements>
 </model>

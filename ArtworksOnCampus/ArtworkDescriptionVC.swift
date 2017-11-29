@@ -19,7 +19,7 @@ class ArtworkDescriptionVC: UIViewController {
     
     @IBOutlet weak var subView: UIView!
     
-    var annotationData: CustomPointAnnotation?
+    var annotationData: Artworks?
     
     override func viewDidLoad() {
         super.viewDidLoad()
