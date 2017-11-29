@@ -10,9 +10,34 @@ import UIKit
 import MapKit
 
 class MapAndTableVC: UIViewController {
+    
+    var selectedAnnotation: CustomPointAnnotation?
+    
+    let annotations: [CustomPointAnnotation] = {
+        
+        var assignedAnnotations: [CustomPointAnnotation] = []
+        var artworksData = CoreDataRequests.getArtworks()
+        
+        for artwork in artworksData {
+        
+            let lat: Double?
+            let long: Double?
+            
+            if let latString = artwork.location?.lat, let lonString = artwork.location?.lon {
+                
+                lat = Double(latString)
+                long = Double(lonString)
+                
+                let coordinates = CLLocationCoordinate2DMake(lat!,long!)
+                
+                let annotation = CustomPointAnnotation(id: artwork.id, title: artwork.title, artist: artwork.artist, yearOfWork: artwork.yearOfWork, information: artwork.information, locationNotes: artwork.locationNotes, fileName: artwork.fileName,coordinate: coordinates, locationGroupIndex: artwork.location?.index(ofAccessibilityElement: self))
+                
+                assignedAnnotations.append(annotation)
+            }
+        }
 
-    var artworksData: [CoreArtwork]?
-    var artworkTransferData: CoreArtwork?
+        return assignedAnnotations
+    }()
     
     var locationManager:CLLocationManager!
     @IBOutlet weak var map: MKMapView!
@@ -21,9 +46,8 @@ class MapAndTableVC: UIViewController {
         super.viewDidLoad()
     
         map.delegate = self
-        
-        artworksData = CoreDataRequests.getArtworks()
-        addAnnotations()
+        map.register(MarkerAnnotationView.self,forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        map.addAnnotations(annotations)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -38,7 +62,7 @@ class MapAndTableVC: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      
         let nextViewController = segue.destination as! ArtworkDescriptionVC
-        nextViewController.artworkData = artworkTransferData
+        nextViewController.annotationData = selectedAnnotation
     }
 }
 
@@ -50,35 +74,6 @@ class MapAndTableVC: UIViewController {
  */
 extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
 
-    // Adds annotations of stored locations to map
-    func addAnnotations() {
-        
-        if let artworkData = artworksData {
-            
-            for artwork in artworkData {
-                
-                // Creates an annotation object and assigns the artwork title and location notes
-                let annotation = MKPointAnnotation()
-                annotation.title = artwork.title
-                annotation.subtitle = artwork.artist
-                
-                var lat: Double
-                var long: Double
-                let lattitude = artwork.lat
-                let longitude = artwork.long
-                
-                if let strLat = lattitude {
-                    lat = Double(strLat)!
-                    
-                    if let strLon = longitude {
-                        long = Double(strLon)!
-                        annotation.coordinate = CLLocationCoordinate2DMake(lat,long)
-                        map.addAnnotation(annotation)
-                    }
-                }
-            }
-        }
-    }
     
     // get Current Location
     func determineCurrentLocation() {
@@ -109,6 +104,18 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
         
     }
     
+    func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
+        
+        let cluster = MKClusterAnnotation(memberAnnotations: memberAnnotations)
+        
+        cluster.title = "Artworks"
+        cluster.subtitle = nil
+        
+        return cluster
+    }
+    
+    
+    
     // Annotation clicked method
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
@@ -117,9 +124,8 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
         
         // Stops My Location causing a segue
         if annotationTitle != "My Location" {
-            
-            // Gets correct artworksData from selected annotation
-            artworkTransferData = artworksData?.first(where: { $0.title == annotationTitle })
+        
+            selectedAnnotation = view.annotation as? CustomPointAnnotation
             performSegue(withIdentifier: "toDescription", sender: nil)
         }
     }

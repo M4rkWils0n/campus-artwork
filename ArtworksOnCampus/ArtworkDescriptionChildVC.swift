@@ -13,16 +13,14 @@ class ArtworkDescriptionChildVC: UIViewController {
     @IBOutlet weak var artistLabel: UILabel!
     @IBOutlet weak var yearLabel: UILabel!
     @IBOutlet weak var informationLabel: UILabel!
-    
-    var artworkData: CoreArtwork?
+        
+    var annotationData: CustomPointAnnotation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if let artwork = artworkData {
-            artistLabel.text = artwork.artist
-            yearLabel.text = artwork.yearOfWork
-            informationLabel.text = artwork.information
-        } 
+        artistLabel.text = annotationData?.artist
+        yearLabel.text = annotationData?.yearOfWork
+        informationLabel.text = annotationData?.information
     }
 }

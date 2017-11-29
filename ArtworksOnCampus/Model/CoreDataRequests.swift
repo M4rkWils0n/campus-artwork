@@ -11,7 +11,6 @@ import CoreData
 
 class CoreDataRequests {
   
-    
     static func getDecodeAndSaveArtworks(urlString: String) {
         
         guard let url = URL(string: urlString) else { return }
@@ -29,24 +28,52 @@ class CoreDataRequests {
                 
                 for artwork in theArtworks! {
                     
+                    // Check to see if specific artwork exists
                     if(!doesArkworkExistWith(id: artwork.id!)) {
                         
-                        let newArtwork = CoreArtwork(context: PersistenceService.context)
-                        newArtwork.id = Int16(artwork.id!)!
-                        newArtwork.title = artwork.title
-                        newArtwork.artist = artwork.artist
-                        newArtwork.yearOfWork = artwork.yearOfWork
-                        newArtwork.information = artwork.Information
-                        newArtwork.lat = artwork.lat
-                        newArtwork.long = artwork.long
-                        newArtwork.locationNotes = artwork.locationNotes
-                        newArtwork.fileName = artwork.fileName
-                        newArtwork.lastModified = artwork.lastModified
+                        if let existingStoredLocation = doesLocationExistWithCoOrds(lat: artwork.lat!, lon: artwork.long!) {
+                        
+                            let newArtwork = CoreArtwork(context: PersistenceService.context)
+                            newArtwork.id = Int16(artwork.id!)!
+                            newArtwork.title = artwork.title
+                            newArtwork.artist = artwork.artist
+                            newArtwork.yearOfWork = artwork.yearOfWork
+                            newArtwork.information = artwork.Information
+                            newArtwork.locationNotes = artwork.locationNotes
+                            newArtwork.fileName = artwork.fileName
+                            newArtwork.lastModified = artwork.lastModified
+                           
+                            existingStoredLocation.addToArtworks(newArtwork)
+                            
+                        } else {
+                         
+                            let newLocation = CoreLocations(context: PersistenceService.context)
+                            newLocation.lat = artwork.lat
+                            newLocation.lon = artwork.long
+                            
+                            let newArtwork = CoreArtwork(context: PersistenceService.context)
+                            newArtwork.id = Int16(artwork.id!)!
+                            newArtwork.title = artwork.title
+                            newArtwork.artist = artwork.artist
+                            newArtwork.yearOfWork = artwork.yearOfWork
+                            newArtwork.information = artwork.Information
+                            newArtwork.locationNotes = artwork.locationNotes
+                            newArtwork.fileName = artwork.fileName
+                            newArtwork.lastModified = artwork.lastModified
+                            
+                            newLocation.addToArtworks(newArtwork)
+                        }
                     }
                 }
                 
                 do {
                     PersistenceService.saveContext()
+                }
+                
+                do{
+                    try PersistenceService.context.save()
+                } catch {
+                    print("error")
                 }
                 
             } catch let jsonErr {
@@ -73,6 +100,25 @@ class CoreDataRequests {
         return results.count > 0
     }
     
+    // Check to see if location exists from co-ordinates if so retuens the Optional CoreLocations
+    static func doesLocationExistWithCoOrds(lat: String, lon: String) -> CoreLocations? {
+        
+        let fetchRequest: NSFetchRequest<CoreLocations> = CoreLocations.fetchRequest()
+    
+        fetchRequest.predicate = NSPredicate(format: "lat = %@ AND lon = %@", lat, lon)
+        
+        var result: [CoreLocations] = []
+        
+        do {
+            result = try PersistenceService.context.fetch(fetchRequest)
+        }
+        catch {
+            print("error executing fetch request: \(error)")
+        }
+        
+        return result.first!
+    }
+    
     static func getArtworks() -> [CoreArtwork] {
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CoreArtwork")
@@ -80,6 +126,21 @@ class CoreDataRequests {
         
         do {
             results = try PersistenceService.context.fetch(fetchRequest) as! [CoreArtwork]
+        }
+        catch {
+            print("error Fetcing data")
+        }
+        
+        return results
+    }
+    
+    static func getLocations() -> [CoreLocations] {
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CoreLocations")
+        var results: [CoreLocations] = []
+        
+        do {
+            results = try PersistenceService.context.fetch(fetchRequest) as! [CoreLocations]
         }
         catch {
             print("error Fetcing data")

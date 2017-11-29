@@ -19,18 +19,18 @@ class ArtworkDescriptionVC: UIViewController {
     
     @IBOutlet weak var subView: UIView!
     
-    var artworkData: CoreArtwork?
+    var annotationData: CustomPointAnnotation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        titleLabel.title = artworkData?.title
+        titleLabel.title = annotationData?.title
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         // Passes data to subView
         let nextViewController = segue.destination as! ArtworkDescriptionChildVC
-        nextViewController.artworkData = self.artworkData
+        nextViewController.annotationData = self.annotationData
     }
 }
