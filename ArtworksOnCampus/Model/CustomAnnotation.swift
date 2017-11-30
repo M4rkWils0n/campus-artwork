@@ -40,7 +40,7 @@ final class Artworks: NSObject, MKAnnotation {
         self.yearOfWork = yearOfWork
         self.information = information
         self.locationNotes = locationNotes
-        self.fileName = locationNotes
+        self.fileName = fileName
 
         self.locationIdentifier = locationIdentifier!
     }
