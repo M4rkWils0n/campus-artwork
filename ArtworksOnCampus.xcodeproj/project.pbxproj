@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C1188A271FD0C14A008E5B17 /* ArtworkLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1188A261FD0C14A008E5B17 /* ArtworkLocations.swift */; };
 		C15A45FE1FCB2F40007DE81F /* MapAndTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15A45FD1FCB2F40007DE81F /* MapAndTableVC.swift */; };
+		C16148FA1FD08145003FF1E4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C16148F91FD08144003FF1E4 /* Default-568h@2x.png */; };
 		C172D3CA1FCC326E00192FB0 /* ArtworkDescriptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C172D3C91FCC326E00192FB0 /* ArtworkDescriptionVC.swift */; };
 		C172D3CC1FCC409D00192FB0 /* ArtworkDescriptionChildVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C172D3CB1FCC409D00192FB0 /* ArtworkDescriptionChildVC.swift */; };
 		C181439E1FCFFE4F0023D3E1 /* CollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C181439D1FCFFE4F0023D3E1 /* CollectionVC.swift */; };
@@ -26,7 +28,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C1188A261FD0C14A008E5B17 /* ArtworkLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkLocations.swift; sourceTree = "<group>"; };
 		C15A45FD1FCB2F40007DE81F /* MapAndTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAndTableVC.swift; sourceTree = "<group>"; };
+		C16148F91FD08144003FF1E4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		C172D3C91FCC326E00192FB0 /* ArtworkDescriptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkDescriptionVC.swift; sourceTree = "<group>"; };
 		C172D3CB1FCC409D00192FB0 /* ArtworkDescriptionChildVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkDescriptionChildVC.swift; sourceTree = "<group>"; };
 		C181439D1FCFFE4F0023D3E1 /* CollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionVC.swift; sourceTree = "<group>"; };
@@ -60,6 +64,7 @@
 		C1C48DBB1FC72536006EC9BE = {
 			isa = PBXGroup;
 			children = (
+				C16148F91FD08144003FF1E4 /* Default-568h@2x.png */,
 				C1C48DC61FC72536006EC9BE /* ArtworksOnCampus */,
 				C1C48DC51FC72536006EC9BE /* Products */,
 			);
@@ -98,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				C18482CE1FCE0DB800F5C499 /* CustomAnnotation.swift */,
+				C1188A261FD0C14A008E5B17 /* ArtworkLocations.swift */,
 				C18482F51FCE276800F5C499 /* MarkerAnnotationView.swift */,
 				C1C48DDE1FC73EA8006EC9BE /* PersistenceService.swift */,
 				C1C48DE01FC73EF1006EC9BE /* CoreDataRequests.swift */,
@@ -173,6 +179,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1C48DD51FC72536006EC9BE /* LaunchScreen.storyboard in Resources */,
+				C16148FA1FD08145003FF1E4 /* Default-568h@2x.png in Resources */,
 				C1C48DD21FC72536006EC9BE /* Assets.xcassets in Resources */,
 				C1C48DCD1FC72536006EC9BE /* Main.storyboard in Resources */,
 			);
@@ -192,6 +199,7 @@
 				C18143A01FD015D10023D3E1 /* CollectionVCell.swift in Sources */,
 				C1C48DD01FC72536006EC9BE /* ArtworksOnCampus.xcdatamodeld in Sources */,
 				C1C48DDF1FC73EA8006EC9BE /* PersistenceService.swift in Sources */,
+				C1188A271FD0C14A008E5B17 /* ArtworkLocations.swift in Sources */,
 				C172D3CA1FCC326E00192FB0 /* ArtworkDescriptionVC.swift in Sources */,
 				C1C48DCA1FC72536006EC9BE /* ViewController.swift in Sources */,
 				C18482CF1FCE0DB800F5C499 /* CustomAnnotation.swift in Sources */,

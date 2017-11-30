@@ -13,10 +13,10 @@ class MapAndTableVC: UIViewController {
     
     
     @IBOutlet weak var table: UITableView!
+    @IBOutlet weak var map: MKMapView!
     
     var selectedArtworkCollection: [Artworks]?
     
-    // Array of Artworks
     var annotations: [Artworks] = {
 
         var artworksData = CoreDataRequests.getArtworks()    // Request from CoreData
@@ -25,12 +25,28 @@ class MapAndTableVC: UIViewController {
         for artwork in artworksData {
             
             //ToDo: Check how many of these i will need
-            let annotation = Artworks(id: artwork.id, title: artwork.title, artist: artwork.artist, yearOfWork: artwork.yearOfWork, information: artwork.information, locationNotes: artwork.locationNotes, fileName: artwork.fileName, latString: artwork.location?.lat ,lonString: artwork.location?.lon, locationIdentifier: artwork.location?.uuid!, image: artwork.image)   // Assign to Artwoks
+            let annotation = Artworks(id: artwork.id, title: artwork.title, artist: artwork.artist, yearOfWork: artwork.yearOfWork, information: artwork.information, locationNotes: artwork.locationNotes, fileName: artwork.fileName, latString: artwork.location?.lat ,lonString: artwork.location?.lon, locationIdentifier: artwork.location?.uuid!, image: artwork.image)
             
             assignedAnnotations.append(annotation)
         }
         
         return assignedAnnotations
+    }()
+    
+    
+    var tableContents: [ArtworkLocation] = {
+        
+        var locationData = CoreDataRequests.getLocations()
+        var locationsForTableContents: [ArtworkLocation] = []
+        
+        for location in locationData {
+    
+            let artworkArray = Array(location.artworks!) as? Array<CoreArtwork>
+            let artworkLocation = ArtworkLocation(locationNote: location.locationNotes!, latString: location.lat, lonString: location.lon, artworks: artworkArray)
+            locationsForTableContents.append(artworkLocation)
+        }
+        
+        return locationsForTableContents
     }()
     
     
@@ -44,9 +60,6 @@ class MapAndTableVC: UIViewController {
     }()
     
     
-    @IBOutlet weak var map: MKMapView!
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -55,34 +68,32 @@ class MapAndTableVC: UIViewController {
         map.addAnnotations(annotations)
         
         locationManager.delegate = self
+        
+        table.dataSource = self
+        table.delegate = self
     }
 
 
-    
     override func viewDidAppear(_ animated: Bool) {
         
         table.reloadData()
     }
     
     
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      
         if segue.identifier == "toDescription" {
+            
             let nextViewController = segue.destination as! ArtworkDescriptionVC
             nextViewController.annotationData = selectedArtworkCollection?.first
         
         } else if segue.identifier == "toCollection" {
             
             let nextViewController = segue.destination as! CollectionVC
-            
             if let artworkCollection = selectedArtworkCollection {
                 nextViewController.annotationData = artworkCollection
-                
             }
         }
-        
-        
     }
 
     
@@ -96,11 +107,9 @@ class MapAndTableVC: UIViewController {
     }
     
     
-    
-    //Sorts annotations by distance from location
-    func sortAnnotationsByDistance() {
+    func sortTableContentsByDistance() {
         
-        annotations = annotations.sorted(by: { $0.distanceFromLocation() < $1.distanceFromLocation() })
+        tableContents = tableContents.sorted(by: { $0.distanceFromLocation() < $1.distanceFromLocation() })
     }
 }
 
@@ -120,10 +129,11 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
         let userLocation:CLLocation = locations[0] as CLLocation
         
         Artworks.userLocation = userLocation
+        ArtworkLocation.userLocation = userLocation
         // Call stopUpdatingLocation() to stop listening for location updates,
         // other wise this function will be called every time when user location changes.
         //manager.stopUpdatingLocation()
-        sortAnnotationsByDistance()
+        sortTableContentsByDistance()
         table.reloadData()
         
         let center = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
@@ -172,18 +182,25 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
 extension MapAndTableVC: UITableViewDelegate, UITableViewDataSource {
     
     
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return annotations.count
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return tableContents[section].loctionNote
     }
     
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return tableContents.count
+    }
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tableContents[section].artworks!.count
+    }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "tableCell")
-        cell.textLabel!.text = annotations[indexPath.item].title
+        cell.textLabel!.text = tableContents[indexPath.section].artworks![indexPath.row].title
         
         return cell
     }

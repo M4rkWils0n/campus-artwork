@@ -4,7 +4,6 @@
 //
 //  Created by Mark Wilson on 23/11/2017.
 //  Copyright © 2017 Mark Wilson. All rights reserved.
-//  https://stackoverflow.com/questions/31254725/transport-security-has-blocked-a-cleartext-http
 
 import Foundation
 import CoreData
@@ -97,7 +96,7 @@ class CoreDataRequests {
     }
     
     
-    static func getImageFrom(urlString: String, artwork: CoreArtwork) {
+    private static func getImageFrom(urlString: String, artwork: CoreArtwork) {
         
         if let url = URL(string: urlString){
         
@@ -125,8 +124,6 @@ class CoreDataRequests {
         }
     }
     
-    
-    
     static func getImagesForArtworks(){
         
         let artworks = getArtworks()
@@ -143,10 +140,8 @@ class CoreDataRequests {
         }
     }
     
-    
-    
     // Checks to see if Artwork Exists in core data
-    static func doesArkworkExistWith(id: String) -> Bool {
+    private static func doesArkworkExistWith(id: String) -> Bool {
         
         let fetchRequest: NSFetchRequest<CoreArtwork> = CoreArtwork.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = %@", id)
@@ -163,8 +158,8 @@ class CoreDataRequests {
         return results.count > 0
     }
     
-    // Check to see if location exists from co-ordinates if so retuens the Optional CoreLocations
-    static func doesLocationExistWithCoOrds(lat: String, lon: String) -> CoreLocations? {
+    // Check to see if location exists from co-ordinates if so returns the Optional CoreLocations
+    private static func doesLocationExistWithCoOrds(lat: String, lon: String) -> CoreLocations? {
         
         let fetchRequest: NSFetchRequest<CoreLocations> = CoreLocations.fetchRequest()
     
@@ -211,4 +206,5 @@ class CoreDataRequests {
         
         return results
     }
+    
 }

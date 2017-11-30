@@ -42,7 +42,7 @@ final class Artworks: NSObject, MKAnnotation {
         self.information = information
         self.locationNotes = locationNotes
         self.fileName = fileName
-        self.image = image!
+        self.image = image
         self.locationIdentifier = locationIdentifier!
     }
     
@@ -53,6 +53,4 @@ final class Artworks: NSObject, MKAnnotation {
         
         return distanceCCL!
     }
-    
-    
 }
