@@ -11,11 +11,10 @@ import MapKit
 
 class MapAndTableVC: UIViewController {
     
+    
     @IBOutlet weak var table: UITableView!
     
-    // Annotation Selected on Map
-    var selectedAnnotation: Artworks?
-    
+    var selectedArtworkCollection: [Artworks]?
     
     // Array of Artworks
     var annotations: [Artworks] = {
@@ -25,7 +24,8 @@ class MapAndTableVC: UIViewController {
         
         for artwork in artworksData {
             
-            let annotation = Artworks(id: artwork.id, title: artwork.title, artist: artwork.artist, yearOfWork: artwork.yearOfWork, information: artwork.information, locationNotes: artwork.locationNotes, fileName: artwork.fileName, latString: artwork.location?.lat ,lonString: artwork.location?.lon,locationGroupIndex: artwork.location?.index(ofAccessibilityElement: self))   // Assign to Artwoks
+            //ToDo: Check how many of these i will need
+            let annotation = Artworks(id: artwork.id, title: artwork.title, artist: artwork.artist, yearOfWork: artwork.yearOfWork, information: artwork.information, locationNotes: artwork.locationNotes, fileName: artwork.fileName, latString: artwork.location?.lat ,lonString: artwork.location?.lon, locationIdentifier: artwork.location?.uuid!)   // Assign to Artwoks
             
             assignedAnnotations.append(annotation)
         }
@@ -33,44 +33,74 @@ class MapAndTableVC: UIViewController {
         return assignedAnnotations
     }()
     
+    
     // TODO: Need to check if this will be used, if not delete and delete the Model ArtLocations
-    let locations: [ArtLocations] = {
-        
-        let retrievedLocations = CoreDataRequests.getLocations()
-        var locationsArray: [ArtLocations] = []
-        
-        for location in retrievedLocations {
-            
-            let retrivedLocation = ArtLocations(locationNote: location.locationNotes!, lat: location.lat!, lon: location.lon!)
-            locationsArray.append(retrivedLocation)
-        }
-        
-        return locationsArray
+//    let locations: [ArtLocations] = {
+//
+//        let retrievedLocations = CoreDataRequests.getLocations()
+//        var locationsArray: [ArtLocations] = []
+//
+//        for location in retrievedLocations {
+//
+//            let retrivedLocation = ArtLocations(locationNote: location.locationNotes!, lat: location.lat!, lon: location.lon!)
+//            locationsArray.append(retrivedLocation)
+//        }
+//
+//        return locationsArray
+//    }()
+    
+    // Create a location manager to trigger user tracking
+    let locationManager: CLLocationManager = {
+        let manager = CLLocationManager()
+        manager.requestWhenInUseAuthorization()
+        manager.startUpdatingLocation()
+        Artworks.userLocation = manager.location
+        return manager
     }()
     
-    var locationManager:CLLocationManager!
     
     @IBOutlet weak var map: MKMapView!
     
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
     
         map.delegate = self
         map.register(MarkerAnnotationView.self,forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         map.addAnnotations(annotations)
+        
+        locationManager.delegate = self
     }
 
+
+    
     override func viewDidAppear(_ animated: Bool) {
-        determineCurrentLocation()
+        
         table.reloadData()
     }
     
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      
-        let nextViewController = segue.destination as! ArtworkDescriptionVC
-        nextViewController.annotationData = selectedAnnotation
+        if segue.identifier == "toDescription" {
+            let nextViewController = segue.destination as! ArtworkDescriptionVC
+            nextViewController.annotationData = selectedArtworkCollection?.first
+        }
+        
     }
+
+    
+    
+    func getArtworkDataBy(selectedLocationIdentifier: String) -> [Artworks]? {
+        
+        var artworkArry: [Artworks] = []
+        // Filters array with items of same selectedLocationIdentifier
+        artworkArry = annotations.filter { $0.locationIdentifier == selectedLocationIdentifier }
+        return artworkArry
+    }
+    
+    
     
     //Sorts annotations by distance from location
     func sortAnnotationsByDistance() {
@@ -78,6 +108,8 @@ class MapAndTableVC: UIViewController {
         annotations = annotations.sorted(by: { $0.distanceFromLocation() < $1.distanceFromLocation() })
     }
 }
+
+
 
 /*
  *
@@ -87,24 +119,7 @@ class MapAndTableVC: UIViewController {
  */
 extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
 
-    
-    // get Current Location
-    func determineCurrentLocation() {
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
-        
-        Artworks.userLocation = locationManager.location
-        
-        
-        if CLLocationManager.locationServicesEnabled() {
-            //locationManager.startUpdatingHeading()
-            locationManager.startUpdatingLocation()
-        }
-    }
-    
-    
+
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         let userLocation:CLLocation = locations[0] as CLLocation
@@ -124,45 +139,55 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
     }
     
     
+    
     func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
         
         let cluster = MKClusterAnnotation(memberAnnotations: memberAnnotations)
         
-        cluster.title = "Artworks"
+        cluster.title = nil
         cluster.subtitle = nil
         
         return cluster
     }
     
-    
+
     
     // Annotation clicked method
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        
-        // returns if annotation contains no title
-        guard let annotationTitle = view.annotation?.title! else { return }
-        
-        // Stops My Location causing a segue
-        if annotationTitle != "My Location" {
-        
-            selectedAnnotation = view.annotation as? Artworks
-            performSegue(withIdentifier: "toDescription", sender: nil)
+
+        if let locationIndentifier = view.clusteringIdentifier {
+            
+            if let artworkCollection = getArtworkDataBy(selectedLocationIdentifier: locationIndentifier) {
+                
+                selectedArtworkCollection = artworkCollection
+                
+                if(artworkCollection.count > 1) {
+                    
+                } else {
+                    performSegue(withIdentifier: "toDescription", sender: nil)
+                }
+            }
         }
     }
 }
 
+
+
 // Class extension for table
 extension MapAndTableVC: UITableViewDelegate, UITableViewDataSource {
+    
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return annotations.count
     }
     
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "tableCell")
-        
         cell.textLabel!.text = annotations[indexPath.item].title
         
         return cell

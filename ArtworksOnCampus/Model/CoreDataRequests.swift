@@ -52,6 +52,7 @@ class CoreDataRequests {
                             newLocation.lat = artwork.lat
                             newLocation.lon = artwork.long
                             newLocation.locationNotes = artwork.locationNotes
+                            newLocation.uuid = NSUUID().uuidString
                             
                             let newArtwork = CoreArtwork(context: PersistenceService.context)
                             newArtwork.id = Int16(artwork.id!)!
