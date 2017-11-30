@@ -10,6 +10,8 @@
 		C15A45FE1FCB2F40007DE81F /* MapAndTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15A45FD1FCB2F40007DE81F /* MapAndTableVC.swift */; };
 		C172D3CA1FCC326E00192FB0 /* ArtworkDescriptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C172D3C91FCC326E00192FB0 /* ArtworkDescriptionVC.swift */; };
 		C172D3CC1FCC409D00192FB0 /* ArtworkDescriptionChildVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C172D3CB1FCC409D00192FB0 /* ArtworkDescriptionChildVC.swift */; };
+		C181439E1FCFFE4F0023D3E1 /* CollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C181439D1FCFFE4F0023D3E1 /* CollectionVC.swift */; };
+		C18143A01FD015D10023D3E1 /* CollectionVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C181439F1FD015D10023D3E1 /* CollectionVCell.swift */; };
 		C18482CF1FCE0DB800F5C499 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18482CE1FCE0DB800F5C499 /* CustomAnnotation.swift */; };
 		C18482F61FCE276800F5C499 /* MarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18482F51FCE276800F5C499 /* MarkerAnnotationView.swift */; };
 		C1C48DC81FC72536006EC9BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C48DC71FC72536006EC9BE /* AppDelegate.swift */; };
@@ -27,6 +29,8 @@
 		C15A45FD1FCB2F40007DE81F /* MapAndTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAndTableVC.swift; sourceTree = "<group>"; };
 		C172D3C91FCC326E00192FB0 /* ArtworkDescriptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkDescriptionVC.swift; sourceTree = "<group>"; };
 		C172D3CB1FCC409D00192FB0 /* ArtworkDescriptionChildVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkDescriptionChildVC.swift; sourceTree = "<group>"; };
+		C181439D1FCFFE4F0023D3E1 /* CollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionVC.swift; sourceTree = "<group>"; };
+		C181439F1FD015D10023D3E1 /* CollectionVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionVCell.swift; sourceTree = "<group>"; };
 		C18482CE1FCE0DB800F5C499 /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		C18482F51FCE276800F5C499 /* MarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerAnnotationView.swift; sourceTree = "<group>"; };
 		C1C48DC41FC72536006EC9BE /* ArtworksOnCampus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArtworksOnCampus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,7 +80,9 @@
 				C1C48DDC1FC73E65006EC9BE /* Model */,
 				C1C48DC71FC72536006EC9BE /* AppDelegate.swift */,
 				C1C48DC91FC72536006EC9BE /* ViewController.swift */,
+				C181439D1FCFFE4F0023D3E1 /* CollectionVC.swift */,
 				C1C48DCB1FC72536006EC9BE /* Main.storyboard */,
+				C181439F1FD015D10023D3E1 /* CollectionVCell.swift */,
 				C172D3CB1FCC409D00192FB0 /* ArtworkDescriptionChildVC.swift */,
 				C172D3C91FCC326E00192FB0 /* ArtworkDescriptionVC.swift */,
 				C15A45FD1FCB2F40007DE81F /* MapAndTableVC.swift */,
@@ -183,12 +189,14 @@
 				C1C48DE11FC73EF1006EC9BE /* CoreDataRequests.swift in Sources */,
 				C18482F61FCE276800F5C499 /* MarkerAnnotationView.swift in Sources */,
 				C172D3CC1FCC409D00192FB0 /* ArtworkDescriptionChildVC.swift in Sources */,
+				C18143A01FD015D10023D3E1 /* CollectionVCell.swift in Sources */,
 				C1C48DD01FC72536006EC9BE /* ArtworksOnCampus.xcdatamodeld in Sources */,
 				C1C48DDF1FC73EA8006EC9BE /* PersistenceService.swift in Sources */,
 				C172D3CA1FCC326E00192FB0 /* ArtworkDescriptionVC.swift in Sources */,
 				C1C48DCA1FC72536006EC9BE /* ViewController.swift in Sources */,
 				C18482CF1FCE0DB800F5C499 /* CustomAnnotation.swift in Sources */,
 				C1C48DC81FC72536006EC9BE /* AppDelegate.swift in Sources */,
+				C181439E1FCFFE4F0023D3E1 /* CollectionVC.swift in Sources */,
 				C15A45FE1FCB2F40007DE81F /* MapAndTableVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

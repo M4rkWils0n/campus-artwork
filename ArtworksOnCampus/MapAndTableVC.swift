@@ -71,7 +71,17 @@ class MapAndTableVC: UIViewController {
         if segue.identifier == "toDescription" {
             let nextViewController = segue.destination as! ArtworkDescriptionVC
             nextViewController.annotationData = selectedArtworkCollection?.first
+        
+        } else if segue.identifier == "toCollection" {
+            
+            let nextViewController = segue.destination as! CollectionVC
+            
+            if let artworkCollection = selectedArtworkCollection {
+                nextViewController.annotationData = artworkCollection
+                
+            }
         }
+        
         
     }
 
@@ -147,7 +157,7 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
                 selectedArtworkCollection = artworkCollection
                 
                 if(artworkCollection.count > 1) {
-                    
+                    performSegue(withIdentifier: "toCollection", sender: nil)
                 } else {
                     performSegue(withIdentifier: "toDescription", sender: nil)
                 }
