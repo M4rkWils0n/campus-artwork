@@ -229,7 +229,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iVc-YN-j40" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2183" y="572"/>
+            <point key="canvasLocation" x="1921" y="519"/>
         </scene>
         <!--Artwork DescriptionVC-->
         <scene sceneID="zAK-n2-zXR">
@@ -277,7 +277,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f9q-qs-3fP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3650" y="134"/>
+            <point key="canvasLocation" x="2726" y="162"/>
         </scene>
         <!--Artwork Description ChildVC-->
         <scene sceneID="As2-Am-yc4">
@@ -373,13 +373,14 @@
                     </view>
                     <connections>
                         <outlet property="artistLabel" destination="bR4-aB-8WV" id="CLW-Ib-QJd"/>
+                        <outlet property="imagePanel" destination="Z44-Fa-xD6" id="wQ7-jk-y2C"/>
                         <outlet property="informationLabel" destination="pc9-jy-Tp9" id="dTa-PS-pHv"/>
                         <outlet property="yearLabel" destination="K1m-Gl-cJA" id="9wi-x9-EE3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7QW-hi-9u7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4508" y="132"/>
+            <point key="canvasLocation" x="3545" y="162"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

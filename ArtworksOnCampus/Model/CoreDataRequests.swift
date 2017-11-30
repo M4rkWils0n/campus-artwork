@@ -12,7 +12,7 @@ import UIKit
 
 class CoreDataRequests {
   
-    static func getDecodeAndSaveArtworks(urlString: String) {
+    static func getDecodeAndSaveArtworkData(urlString: String, completion: @escaping (_ success:Bool) -> Void ) {
         
         guard let url = URL(string: urlString) else { return }
         
@@ -41,7 +41,10 @@ class CoreDataRequests {
                             newArtwork.yearOfWork = artwork.yearOfWork
                             newArtwork.information = artwork.Information
                             newArtwork.locationNotes = artwork.locationNotes
-                            newArtwork.fileName = artwork.fileName
+                
+                            let stringConcat = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artwork_images/" + artwork.fileName!
+                            let urlString = stringConcat.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+                            newArtwork.fileName = urlString
                             newArtwork.lastModified = artwork.lastModified
                            
                             existingStoredLocation.addToArtworks(newArtwork)
@@ -65,9 +68,11 @@ class CoreDataRequests {
                             newArtwork.yearOfWork = artwork.yearOfWork
                             newArtwork.information = artwork.Information
                             newArtwork.locationNotes = artwork.locationNotes
-                            newArtwork.fileName = artwork.fileName
-                            newArtwork.lastModified = artwork.lastModified
                             
+                            let stringConcat = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artwork_images/" + artwork.fileName!
+                            let urlString = stringConcat.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+                            newArtwork.fileName = urlString
+                            newArtwork.lastModified = artwork.lastModified
                             newLocation.addToArtworks(newArtwork)
                         }
                     }
@@ -83,11 +88,62 @@ class CoreDataRequests {
                     print("error")
                 }
                 
+                completion(true)
+                
             } catch let jsonErr {
                     print("Error decoding JSON", jsonErr)
             }
         }.resume()
     }
+    
+    
+    static func getImageFrom(urlString: String, artwork: CoreArtwork) {
+        
+        if let url = URL(string: urlString){
+        
+            var imageData: NSData?
+            
+            let session = URLSession.shared
+            
+            session.dataTask(with: url) { (data, response, error) in
+                
+                guard let data = data else { return }
+                
+                if let image = UIImage(data: data) {
+                    
+                    imageData = UIImagePNGRepresentation(image)! as NSData
+                    artwork.image = imageData as Data?
+                    
+                    do{
+                        try PersistenceService.context.save()
+                    } catch {
+                        print("error")
+                    }
+                }
+                
+            }.resume()
+        }
+    }
+    
+    
+    
+    static func getImagesForArtworks(){
+        
+        let artworks = getArtworks()
+        
+        for artwork in artworks {
+         
+            if artwork.image == nil {
+            
+                if let url = artwork.fileName {
+                    
+                    getImageFrom(urlString: url, artwork: artwork)
+                }
+            }
+        }
+    }
+    
+    
     
     // Checks to see if Artwork Exists in core data
     static func doesArkworkExistWith(id: String) -> Bool {

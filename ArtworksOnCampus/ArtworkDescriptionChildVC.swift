@@ -13,7 +13,9 @@ class ArtworkDescriptionChildVC: UIViewController {
     @IBOutlet weak var artistLabel: UILabel!
     @IBOutlet weak var yearLabel: UILabel!
     @IBOutlet weak var informationLabel: UILabel!
-        
+    @IBOutlet weak var imagePanel: UIImageView!
+    
+    
     var annotationData: Artworks?
     
     override func viewDidLoad() {
@@ -22,5 +24,6 @@ class ArtworkDescriptionChildVC: UIViewController {
         artistLabel.text = annotationData?.artist
         yearLabel.text = annotationData?.yearOfWork
         informationLabel.text = annotationData?.information
+        imagePanel.image = UIImage(data: (annotationData?.image)!)
     }
 }

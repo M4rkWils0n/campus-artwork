@@ -10,14 +10,17 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var artworkLocations = [Dictionary<String,String>()]
     
     @IBOutlet weak var subView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        CoreDataRequests.getDecodeAndSaveArtworks(urlString: "http://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus/data.php?class=artworks&last")
+        CoreDataRequests.getDecodeAndSaveArtworkData(urlString: "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus/data.php?class=artworks&last", completion: { (success) in
+            
+            CoreDataRequests.getImagesForArtworks()
+            
+        })
         
     }
     
