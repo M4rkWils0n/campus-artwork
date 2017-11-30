@@ -123,16 +123,13 @@ class MapAndTableVC: UIViewController {
  */
 extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
 
-
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         let userLocation:CLLocation = locations[0] as CLLocation
         
         Artworks.userLocation = userLocation
         ArtworkLocation.userLocation = userLocation
-        // Call stopUpdatingLocation() to stop listening for location updates,
-        // other wise this function will be called every time when user location changes.
-        //manager.stopUpdatingLocation()
+
         sortTableContentsByDistance()
         table.reloadData()
         
@@ -140,9 +137,7 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
         
         map.setRegion(region, animated: true)
-        
     }
-    
     
     
     func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
@@ -155,9 +150,8 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
         return cluster
     }
     
-
     
-    // Annotation clicked method
+    // Annotation clicked
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
 
         if let locationIndentifier = view.clusteringIdentifier {
@@ -167,8 +161,10 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
                 selectedArtworkCollection = artworkCollection
                 
                 if(artworkCollection.count > 1) {
+                   
                     performSegue(withIdentifier: "toCollection", sender: nil)
                 } else {
+                    
                     performSegue(withIdentifier: "toDescription", sender: nil)
                 }
             }
