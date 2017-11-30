@@ -51,7 +51,11 @@ class CoreDataRequests {
                             let newLocation = CoreLocations(context: PersistenceService.context)
                             newLocation.lat = artwork.lat
                             newLocation.lon = artwork.long
-                            newLocation.locationNotes = artwork.locationNotes
+                      
+                            if let rawLocationNotes = artwork.locationNotes {
+                                let index = rawLocationNotes.index(of: ",") ?? rawLocationNotes.endIndex
+                                newLocation.locationNotes = String(rawLocationNotes[..<index])
+                            }
                             newLocation.uuid = NSUUID().uuidString
                             
                             let newArtwork = CoreArtwork(context: PersistenceService.context)

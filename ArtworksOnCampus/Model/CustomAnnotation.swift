@@ -46,7 +46,6 @@ final class Artworks: NSObject, MKAnnotation {
     }
     
     
-
     func distanceFromLocation() -> Double{
       
         let distanceCCL = Artworks.userLocation?.distance(from: self.coordinateForDistance)

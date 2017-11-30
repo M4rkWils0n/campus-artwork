@@ -10,7 +10,6 @@
 		C15A45FE1FCB2F40007DE81F /* MapAndTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15A45FD1FCB2F40007DE81F /* MapAndTableVC.swift */; };
 		C172D3CA1FCC326E00192FB0 /* ArtworkDescriptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C172D3C91FCC326E00192FB0 /* ArtworkDescriptionVC.swift */; };
 		C172D3CC1FCC409D00192FB0 /* ArtworkDescriptionChildVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C172D3CB1FCC409D00192FB0 /* ArtworkDescriptionChildVC.swift */; };
-		C181439A1FCF086E0023D3E1 /* ArtLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18143991FCF086E0023D3E1 /* ArtLocations.swift */; };
 		C18482CF1FCE0DB800F5C499 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18482CE1FCE0DB800F5C499 /* CustomAnnotation.swift */; };
 		C18482F61FCE276800F5C499 /* MarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18482F51FCE276800F5C499 /* MarkerAnnotationView.swift */; };
 		C1C48DC81FC72536006EC9BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C48DC71FC72536006EC9BE /* AppDelegate.swift */; };
@@ -28,7 +27,6 @@
 		C15A45FD1FCB2F40007DE81F /* MapAndTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAndTableVC.swift; sourceTree = "<group>"; };
 		C172D3C91FCC326E00192FB0 /* ArtworkDescriptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkDescriptionVC.swift; sourceTree = "<group>"; };
 		C172D3CB1FCC409D00192FB0 /* ArtworkDescriptionChildVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkDescriptionChildVC.swift; sourceTree = "<group>"; };
-		C18143991FCF086E0023D3E1 /* ArtLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtLocations.swift; sourceTree = "<group>"; };
 		C18482CE1FCE0DB800F5C499 /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		C18482F51FCE276800F5C499 /* MarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerAnnotationView.swift; sourceTree = "<group>"; };
 		C1C48DC41FC72536006EC9BE /* ArtworksOnCampus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArtworksOnCampus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,7 +92,6 @@
 			isa = PBXGroup;
 			children = (
 				C18482CE1FCE0DB800F5C499 /* CustomAnnotation.swift */,
-				C18143991FCF086E0023D3E1 /* ArtLocations.swift */,
 				C18482F51FCE276800F5C499 /* MarkerAnnotationView.swift */,
 				C1C48DDE1FC73EA8006EC9BE /* PersistenceService.swift */,
 				C1C48DE01FC73EF1006EC9BE /* CoreDataRequests.swift */,
@@ -182,7 +179,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C181439A1FCF086E0023D3E1 /* ArtLocations.swift in Sources */,
 				C1C48DE31FC74328006EC9BE /* JSONDecoder.swift in Sources */,
 				C1C48DE11FC73EF1006EC9BE /* CoreDataRequests.swift in Sources */,
 				C18482F61FCE276800F5C499 /* MarkerAnnotationView.swift in Sources */,

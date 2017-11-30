@@ -34,21 +34,6 @@ class MapAndTableVC: UIViewController {
     }()
     
     
-    // TODO: Need to check if this will be used, if not delete and delete the Model ArtLocations
-//    let locations: [ArtLocations] = {
-//
-//        let retrievedLocations = CoreDataRequests.getLocations()
-//        var locationsArray: [ArtLocations] = []
-//
-//        for location in retrievedLocations {
-//
-//            let retrivedLocation = ArtLocations(locationNote: location.locationNotes!, lat: location.lat!, lon: location.lon!)
-//            locationsArray.append(retrivedLocation)
-//        }
-//
-//        return locationsArray
-//    }()
-    
     // Create a location manager to trigger user tracking
     let locationManager: CLLocationManager = {
         let manager = CLLocationManager()
