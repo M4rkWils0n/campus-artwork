@@ -29,7 +29,8 @@ class CollectionVC: UIViewController {
         super.viewDidLoad()
 
         if let groupLocation = annotationData?.first?.groupLocation {
-          titleLabel.title = groupLocation
+//          titleLabel.title = groupLocation
+            title = groupLocation
         }
     }
     
@@ -56,6 +57,8 @@ extension CollectionVC: UICollectionViewDelegate, UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! CollectionVCell
         
         cell.textLabel.text = annotationData![indexPath.item].artist!
+        cell.cellImage.image = UIImage(data: (annotationData![indexPath.item].image)!)
+//        UIImage(data: (annotationData?.image)!)
         
         return cell
     }

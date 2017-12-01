@@ -21,18 +21,12 @@ class ViewController: UIViewController {
             CoreDataRequests.getImagesForArtworks()
             
         })
-        
     }
     
+
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if (segue.identifier == "toChild") {
-//            let mapAndTableView = segue.destination  as! MapAndTableVC
-//            
-//            
-//        }
-//    }
     
+
 
 
     override func didReceiveMemoryWarning() {

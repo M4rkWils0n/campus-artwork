@@ -16,6 +16,7 @@ class MapAndTableVC: UIViewController {
     @IBOutlet weak var map: MKMapView!
     
     var selectedArtworkCollection: [Artworks]?
+    var currentlySelectedAnnotation: Artworks?
     
     var annotations: [Artworks] = {
 
@@ -64,18 +65,18 @@ class MapAndTableVC: UIViewController {
         super.viewDidLoad()
     
         map.delegate = self
-        map.register(MarkerAnnotationView.self,forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
-        map.addAnnotations(annotations)
-        
         locationManager.delegate = self
-        
         table.dataSource = self
         table.delegate = self
+        
+        map.register(MarkerAnnotationView.self,forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
     }
 
 
     override func viewDidAppear(_ animated: Bool) {
         
+        map.deselectAnnotation(currentlySelectedAnnotation, animated: true)
+        map.addAnnotations(annotations)
         table.reloadData()
     }
     
@@ -112,7 +113,6 @@ class MapAndTableVC: UIViewController {
         tableContents = tableContents.sorted(by: { $0.distanceFromLocation() < $1.distanceFromLocation() })
     }
 }
-
 
 
 /*
@@ -153,7 +153,9 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
     
     // Annotation clicked
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-
+        
+        currentlySelectedAnnotation = view.annotation as? Artworks
+        
         if let locationIndentifier = view.clusteringIdentifier {
             
             if let artworkCollection = getArtworkDataBy(selectedLocationIdentifier: locationIndentifier) {
@@ -195,9 +197,9 @@ extension MapAndTableVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "tableCell")
+        let cell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "tableCell")
         cell.textLabel!.text = tableContents[indexPath.section].artworks![indexPath.row].title
-        
+        cell.detailTextLabel?.text = tableContents[indexPath.section].artworks![indexPath.row].artist
         return cell
     }
 }
