@@ -25,7 +25,7 @@ class MapAndTableVC: UIViewController {
         for artwork in artworksData {
             
             //ToDo: Check how many of these i will need
-            let annotation = Artworks(id: artwork.id, title: artwork.title, artist: artwork.artist, yearOfWork: artwork.yearOfWork, information: artwork.information, locationNotes: artwork.locationNotes, fileName: artwork.fileName, latString: artwork.location?.lat ,lonString: artwork.location?.lon, locationIdentifier: artwork.location?.uuid!, image: artwork.image)
+            let annotation = Artworks(id: artwork.id, title: artwork.title, artist: artwork.artist, yearOfWork: artwork.yearOfWork, information: artwork.information, locationNotes: artwork.locationNotes, fileName: artwork.fileName, latString: artwork.location?.lat ,lonString: artwork.location?.lon, locationIdentifier: artwork.location?.uuid!, image: artwork.image, groupLocation: artwork.location?.locationNotes)
             
             assignedAnnotations.append(annotation)
         }

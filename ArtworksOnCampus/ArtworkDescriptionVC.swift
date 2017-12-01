@@ -24,7 +24,7 @@ class ArtworkDescriptionVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        titleLabel.title = annotationData?.title
+        titleLabel.title = annotationData?.artist
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

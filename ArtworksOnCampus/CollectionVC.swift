@@ -28,8 +28,8 @@ class CollectionVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if let locationNotes = annotationData?.first?.locationNotes {
-          titleLabel.title = locationNotes
+        if let groupLocation = annotationData?.first?.groupLocation {
+          titleLabel.title = groupLocation
         }
     }
     

@@ -160,13 +160,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="583"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sCt-Z6-BYF">
+                            <navigationBar contentMode="scaleToFill" largeTitles="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sCt-Z6-BYF">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <color key="barTintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <items>
-                                    <navigationItem title="Title" id="hgk-kg-PVL">
-                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="0aY-rT-cah">
+                                    <navigationItem title="Title" largeTitleDisplayMode="never" id="QPh-qR-jC8">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="stop" id="QZS-8l-S7J">
                                             <connections>
-                                                <action selector="doneButtonClicked:" destination="Nj2-3S-ogj" id="ZHh-IQ-f3d"/>
+                                                <action selector="doneButtonClicked:" destination="Nj2-3S-ogj" id="Wbj-P3-FHi"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -223,7 +224,7 @@
                     </view>
                     <connections>
                         <outlet property="collection" destination="fop-z7-wqZ" id="amB-iF-ZXZ"/>
-                        <outlet property="titleLabel" destination="hgk-kg-PVL" id="rEb-QL-O8G"/>
+                        <outlet property="titleLabel" destination="QPh-qR-jC8" id="gbp-5O-MWb"/>
                         <segue destination="HqL-ft-fnz" kind="show" identifier="collectionToDescription" id="D4c-iH-FB1"/>
                     </connections>
                 </viewController>
@@ -240,16 +241,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c7r-yM-n4h">
-                                <rect key="frame" x="0.0" y="64" width="375" height="519"/>
+                                <rect key="frame" x="0.0" y="116" width="375" height="467"/>
                                 <connections>
                                     <segue destination="qvS-H0-3FK" kind="embed" identifier="toSubView" id="1qF-y4-3oO"/>
                                 </connections>
                             </containerView>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bml-Ya-G8f">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                            <navigationBar contentMode="scaleToFill" largeTitles="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bml-Ya-G8f">
+                                <rect key="frame" x="0.0" y="20" width="375" height="96"/>
+                                <color key="barTintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <items>
                                     <navigationItem title="Title" id="6mG-qH-nFF">
-                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="FNk-fe-sAk">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="stop" id="FNk-fe-sAk">
                                             <connections>
                                                 <action selector="doneButtonClicked:" destination="HqL-ft-fnz" id="tXh-JN-OcB"/>
                                             </connections>
@@ -263,9 +265,9 @@
                             <constraint firstItem="c7r-yM-n4h" firstAttribute="leading" secondItem="Kvu-Ho-Cb9" secondAttribute="leading" id="9RT-bN-xq4"/>
                             <constraint firstItem="c7r-yM-n4h" firstAttribute="trailing" secondItem="Kvu-Ho-Cb9" secondAttribute="trailing" id="AjI-Ue-IeI"/>
                             <constraint firstItem="Bml-Ya-G8f" firstAttribute="leading" secondItem="Kvu-Ho-Cb9" secondAttribute="leading" id="HY5-t7-4ue"/>
+                            <constraint firstItem="Bml-Ya-G8f" firstAttribute="top" secondItem="Kvu-Ho-Cb9" secondAttribute="top" id="QF9-0S-XvR"/>
                             <constraint firstItem="c7r-yM-n4h" firstAttribute="bottom" secondItem="Kvu-Ho-Cb9" secondAttribute="bottom" id="feV-8d-WbL"/>
                             <constraint firstItem="c7r-yM-n4h" firstAttribute="top" secondItem="Bml-Ya-G8f" secondAttribute="bottom" id="j1U-0B-NKt"/>
-                            <constraint firstItem="Bml-Ya-G8f" firstAttribute="top" secondItem="Kvu-Ho-Cb9" secondAttribute="top" id="ndx-y3-VeO"/>
                             <constraint firstItem="Bml-Ya-G8f" firstAttribute="trailing" secondItem="Kvu-Ho-Cb9" secondAttribute="trailing" id="tg5-ZI-Q9b"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Kvu-Ho-Cb9"/>
@@ -284,26 +286,26 @@
             <objects>
                 <viewController id="qvS-H0-3FK" customClass="ArtworkDescriptionChildVC" customModule="ArtworksOnCampus" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Zhq-ub-H14">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="467"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Z44-Fa-xD6">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="259.5"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" semanticContentAttribute="playback" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Z44-Fa-xD6">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="234"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pc9-jy-Tp9">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="247" ambiguous="YES" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pc9-jy-Tp9">
                                 <rect key="frame" x="16" y="325" width="343" height="174"/>
                                 <string key="text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Year" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K1m-Gl-cJA">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Year" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K1m-Gl-cJA">
                                 <rect key="frame" x="16" y="296" width="343" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bR4-aB-8WV">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Artist" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bR4-aB-8WV">
                                 <rect key="frame" x="16" y="267" width="343" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -372,7 +374,7 @@
                         </variation>
                     </view>
                     <connections>
-                        <outlet property="artistLabel" destination="bR4-aB-8WV" id="CLW-Ib-QJd"/>
+                        <outlet property="artworkLabel" destination="bR4-aB-8WV" id="CLW-Ib-QJd"/>
                         <outlet property="imagePanel" destination="Z44-Fa-xD6" id="wQ7-jk-y2C"/>
                         <outlet property="informationLabel" destination="pc9-jy-Tp9" id="dTa-PS-pHv"/>
                         <outlet property="yearLabel" destination="K1m-Gl-cJA" id="9wi-x9-EE3"/>
@@ -384,6 +386,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="pSe-P1-VFW"/>
+        <segue reference="D4c-iH-FB1"/>
     </inferredMetricsTieBreakers>
 </document>

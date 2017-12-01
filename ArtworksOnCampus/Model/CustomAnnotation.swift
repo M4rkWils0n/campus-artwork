@@ -22,10 +22,11 @@ final class Artworks: NSObject, MKAnnotation {
     let fileName: String?
     let image: Data?
     let locationIdentifier: String
+    let groupLocation: String?
     var distanceFromUser = 0.0
     static var userLocation: CLLocation? 
     
-    init(id: Int16?, title: String?, artist: String?, yearOfWork: String?, information: String?, locationNotes: String?, fileName: String?,latString: String?, lonString: String?, locationIdentifier: String?, image: Data?) {
+    init(id: Int16?, title: String?, artist: String?, yearOfWork: String?, information: String?, locationNotes: String?, fileName: String?,latString: String?, lonString: String?, locationIdentifier: String?, image: Data? , groupLocation: String?) {
         
         let lat: Double
         let long: Double
@@ -44,6 +45,7 @@ final class Artworks: NSObject, MKAnnotation {
         self.fileName = fileName
         self.image = image
         self.locationIdentifier = locationIdentifier!
+        self.groupLocation = groupLocation
     }
     
     

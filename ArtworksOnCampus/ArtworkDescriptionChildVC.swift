@@ -10,7 +10,7 @@ import UIKit
 
 class ArtworkDescriptionChildVC: UIViewController {
 
-    @IBOutlet weak var artistLabel: UILabel!
+    @IBOutlet weak var artworkLabel: UILabel!
     @IBOutlet weak var yearLabel: UILabel!
     @IBOutlet weak var informationLabel: UILabel!
     @IBOutlet weak var imagePanel: UIImageView!
@@ -21,7 +21,7 @@ class ArtworkDescriptionChildVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        artistLabel.text = annotationData?.artist
+        artworkLabel.text = annotationData?.title
         yearLabel.text = annotationData?.yearOfWork
         informationLabel.text = annotationData?.information
         imagePanel.image = UIImage(data: (annotationData?.image)!)
