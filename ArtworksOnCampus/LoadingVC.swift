@@ -15,12 +15,14 @@ class LoadingVC: UIViewController {
 
         CoreDataRequests.getDecodeAndSaveArtworkData(urlString: "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus/data.php?class=artworks", completion: { (success) in
 
-            let artworks = CoreDataRequests.getArtworks()
-
-            CoreDataRequests.storeInitialArtworkImages(artworks: artworks, index: 0, completion: { (success) in
-
-                self.performSegue(withIdentifier: "toStart", sender: nil)
-            })
+//            let artworks = CoreDataRequests.getArtworks()
+//
+//            CoreDataRequests.storeInitialArtworkImages(artworks: artworks, index: 0, completion: { (success) in
+//
+//                self.performSegue(withIdentifier: "toStart", sender: nil)
+//            })
+            
+            self.performSegue(withIdentifier: "toStart", sender: nil)
         })
 
     }

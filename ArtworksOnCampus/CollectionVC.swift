@@ -58,12 +58,21 @@ extension CollectionVC: UICollectionViewDelegate, UICollectionViewDataSource {
         
         cell.textLabel.text = annotationData![indexPath.item].artist!
         
-        if let image = annotationData![indexPath.item].image {
+        if let artwork = CoreDataRequests.getArtworkFrom(id: annotationData![indexPath.item].id!) {
+        
+            if let image = artwork.image {
+                cell.cellImage.image = UIImage(data: image)
+                
+            } else {
+                
+                cell.cellImage.image = UIImage(named: "placeholder")
+                CoreDataRequests.downloadImageNeededForCollection(source: collection, indexPath: indexPath, annotation: annotationData![indexPath.item])
+            }
+        
+        } else {
             
-            cell.cellImage.image = UIImage(data: image)
+           cell.cellImage.image = UIImage(named: "placeholder")
         }
-        
-        
         
         return cell
     }

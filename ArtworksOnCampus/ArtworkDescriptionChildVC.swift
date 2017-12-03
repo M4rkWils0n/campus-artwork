@@ -15,7 +15,6 @@ class ArtworkDescriptionChildVC: UIViewController {
     @IBOutlet weak var informationLabel: UILabel!
     @IBOutlet weak var imagePanel: UIImageView!
     
-    
     var annotationData: Artworks?
     
     override func viewDidLoad() {
@@ -25,8 +24,21 @@ class ArtworkDescriptionChildVC: UIViewController {
         yearLabel.text = annotationData?.yearOfWork
         informationLabel.text = annotationData?.information
         
-        if let image = annotationData?.image {
-            imagePanel.image = UIImage(data: image)
+        
+        if let artwork = CoreDataRequests.getArtworkFrom(id: annotationData!.id!) {
+            
+            if let image = artwork.image {
+                imagePanel.image = UIImage(data: image)
+                
+            } else {
+                
+                imagePanel.image = UIImage(named: "placeholder")
+                CoreDataRequests.downloadImageNeededForDesription(source: imagePanel, annotation: annotationData!)
+            }
+        
+        } else {
+            
+            imagePanel.image = UIImage(named: "placeholder")
         }
     }
 }

@@ -17,6 +17,7 @@
 		C18143A01FD015D10023D3E1 /* CollectionVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C181439F1FD015D10023D3E1 /* CollectionVCell.swift */; };
 		C18482CF1FCE0DB800F5C499 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18482CE1FCE0DB800F5C499 /* CustomAnnotation.swift */; };
 		C18482F61FCE276800F5C499 /* MarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18482F51FCE276800F5C499 /* MarkerAnnotationView.swift */; };
+		C1B6815E1FD4191000C04622 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = C1B6815D1FD4191000C04622 /* placeholder.png */; };
 		C1C48DC81FC72536006EC9BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C48DC71FC72536006EC9BE /* AppDelegate.swift */; };
 		C1C48DCA1FC72536006EC9BE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C48DC91FC72536006EC9BE /* ViewController.swift */; };
 		C1C48DCD1FC72536006EC9BE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1C48DCB1FC72536006EC9BE /* Main.storyboard */; };
@@ -39,6 +40,7 @@
 		C181439F1FD015D10023D3E1 /* CollectionVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionVCell.swift; sourceTree = "<group>"; };
 		C18482CE1FCE0DB800F5C499 /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		C18482F51FCE276800F5C499 /* MarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerAnnotationView.swift; sourceTree = "<group>"; };
+		C1B6815D1FD4191000C04622 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
 		C1C48DC41FC72536006EC9BE /* ArtworksOnCampus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArtworksOnCampus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1C48DC71FC72536006EC9BE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C1C48DC91FC72536006EC9BE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				C172D3C91FCC326E00192FB0 /* ArtworkDescriptionVC.swift */,
 				C15A45FD1FCB2F40007DE81F /* MapAndTableVC.swift */,
 				C1C48DD11FC72536006EC9BE /* Assets.xcassets */,
+				C1B6815D1FD4191000C04622 /* placeholder.png */,
 				C1C48DD31FC72536006EC9BE /* LaunchScreen.storyboard */,
 				C1C48DD61FC72536006EC9BE /* Info.plist */,
 				C1C48DCE1FC72536006EC9BE /* ArtworksOnCampus.xcdatamodeld */,
@@ -184,6 +187,7 @@
 				C1C48DD51FC72536006EC9BE /* LaunchScreen.storyboard in Resources */,
 				C16148FA1FD08145003FF1E4 /* Default-568h@2x.png in Resources */,
 				C1C48DD21FC72536006EC9BE /* Assets.xcassets in Resources */,
+				C1B6815E1FD4191000C04622 /* placeholder.png in Resources */,
 				C1C48DCD1FC72536006EC9BE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

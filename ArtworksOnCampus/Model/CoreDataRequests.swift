@@ -36,8 +36,18 @@ class CoreDataRequests {
                         if let existingStoredLocation = doesLocationExistWithCoOrds(lat: artwork.lat!, lon: artwork.long!) {
                             
                             let newArtwork = CoreArtwork(context: PersistenceService.context)
-                            let assignedArtwork = self.addNewArtwork(newArtwork: newArtwork, artwork: artwork)
-                            existingStoredLocation.addToArtworks(assignedArtwork)
+                            newArtwork.id = Int16(artwork.id!)!
+                            newArtwork.title = artwork.title
+                            newArtwork.artist = artwork.artist
+                            newArtwork.yearOfWork = artwork.yearOfWork
+                            newArtwork.information = artwork.Information
+                            newArtwork.locationNotes = artwork.locationNotes
+                            
+                            let stringConcat = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artwork_images/" + artwork.fileName!
+                            let urlString = stringConcat.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+                            newArtwork.fileName = urlString
+                            newArtwork.lastModified = artwork.lastModified
+                            existingStoredLocation.addToArtworks(newArtwork)
                             
                         } else {
                          
@@ -52,9 +62,19 @@ class CoreDataRequests {
                             }
                             
                             let newArtwork = CoreArtwork(context: PersistenceService.context)
-                            let assignedArtwork = self.addNewArtwork(newArtwork: newArtwork, artwork: artwork)
+                            newArtwork.id = Int16(artwork.id!)!
+                            newArtwork.title = artwork.title
+                            newArtwork.artist = artwork.artist
+                            newArtwork.yearOfWork = artwork.yearOfWork
+                            newArtwork.information = artwork.Information
+                            newArtwork.locationNotes = artwork.locationNotes
                             
-                            newLocation.addToArtworks(assignedArtwork)
+                            let stringConcat = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artwork_images/" + artwork.fileName!
+                            let urlString = stringConcat.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+                            newArtwork.fileName = urlString
+                            newArtwork.lastModified = artwork.lastModified
+                            
+                            newLocation.addToArtworks(newArtwork)
                         }
                     }
                 }
@@ -76,27 +96,6 @@ class CoreDataRequests {
             }
         }.resume()
     }
-    
-    
-    private static func addNewArtwork(newArtwork: CoreArtwork, artwork: Artwork) -> CoreArtwork {
-        
-        let newItem = newArtwork
-        
-        newItem.id = Int16(artwork.id!)!
-        newItem.title = artwork.title
-        newItem.artist = artwork.artist
-        newItem.yearOfWork = artwork.yearOfWork
-        newItem.information = artwork.Information
-        newItem.locationNotes = artwork.locationNotes
-        
-        let stringConcat = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artwork_images/" + artwork.fileName!
-        let urlString = stringConcat.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
-        newItem.fileName = urlString
-        newItem.lastModified = artwork.lastModified
-        
-        return newItem
-    }
-    
     
     
     private static func getImageFrom(urlString: String, artwork: CoreArtwork) {
@@ -200,37 +199,7 @@ class CoreDataRequests {
         }
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     // Checks to see if Artwork Exists in core data
     private static func doesArkworkExistWith(id: String) -> Bool {
@@ -299,4 +268,88 @@ class CoreDataRequests {
         return results
     }
     
+    
+    static func downloadImageNeededForCollection(source: Any, indexPath: IndexPath, annotation: Artworks) {
+        
+            let source = source as! UICollectionView
+            let url = URL(string: annotation.fileName!)
+            var imageData: NSData?
+        
+            let session = URLSession.shared
+            session.downloadTask(with: url!, completionHandler: { (location, response, error) in
+                
+                if let data = try? Data(contentsOf: url!) {
+                    
+                    DispatchQueue.main.async(execute: {
+                        
+                        let updateCell = source.cellForItem(at: indexPath) as! CollectionVCell
+                        let img = UIImage(data: data)
+                        updateCell.cellImage.image = img
+                        
+                        let artwork = getArtworkFrom(id: annotation.id!)
+                        imageData = UIImagePNGRepresentation(img!)! as NSData
+                        artwork?.image = imageData as Data?
+                        
+                        do{
+                            try PersistenceService.context.save()
+                        } catch {
+                            print("error")
+                        }
+                    })
+                }
+            }).resume()
+    }
+    
+    
+    static func downloadImageNeededForDesription(source: UIImageView, annotation: Artworks) {
+        
+        let updateItem = source
+        
+        let url = URL(string: annotation.fileName!)
+        
+        var imageData: NSData?
+        
+        let session = URLSession.shared
+        session.downloadTask(with: url!, completionHandler: { (location, response, error) in
+            
+            if let data = try? Data(contentsOf: url!) {
+                
+                DispatchQueue.main.async(execute: {
+                    
+                    let img = UIImage(data: data)
+                    updateItem.image = img
+                    let artwork = getArtworkFrom(id: annotation.id!)
+                    imageData = UIImagePNGRepresentation(img!)! as NSData
+                    artwork?.image = imageData as Data?
+                    
+                    do{
+                        try PersistenceService.context.save()
+                    } catch {
+                        print("error")
+                    }
+                })
+                
+
+            
+            }
+        }).resume()
+    }
+    
+    static func getArtworkFrom(id: Int16) -> CoreArtwork? {
+        
+        let fetchRequest: NSFetchRequest<CoreArtwork> = CoreArtwork.fetchRequest()
+        
+        fetchRequest.predicate = NSPredicate(format: "id = %i",id)
+        
+        var result: [CoreArtwork] = []
+        
+        do {
+            result = try PersistenceService.context.fetch(fetchRequest)
+        }
+        catch {
+            print("error executing fetch request: \(error)")
+        }
+        
+        return result.first
+    }
 }
