@@ -13,16 +13,16 @@ class LoadingVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        CoreDataRequests.getDecodeAndSaveArtworkData(urlString: "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus/data.php?class=artworks", completion: { (success) in
-
-
-            
-            self.performSegue(withIdentifier: "toStart", sender: nil)
-        })
+//        CoreDataRequests.getDecodeAndSaveArtworkData(urlString: "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus/data.php?class=artworks", completion: { (success) in
+//
+//
+//
+//
+//        })
 
     }
     
     override func viewDidAppear(_ animated: Bool) {
-//        performSegue(withIdentifier: "toStart", sender: nil)
+        performSegue(withIdentifier: "toStart", sender: nil)
     }
 }

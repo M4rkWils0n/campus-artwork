@@ -18,37 +18,9 @@ class MapAndTableVC: UIViewController {
     var selectedArtworkCollection: [Artworks]?
     var currentlySelectedAnnotation: Artworks?
     
-    var annotations: [Artworks] = {
-
-        var artworksData = CoreDataRequests.getArtworks()    // Request from CoreData
-        var assignedAnnotations: [Artworks] = []
-        
-        for artwork in artworksData {
-            
-            //ToDo: Check how many of these i will need
-            let annotation = Artworks(id: artwork.id, title: artwork.title, artist: artwork.artist, yearOfWork: artwork.yearOfWork, information: artwork.information, locationNotes: artwork.locationNotes, fileName: artwork.fileName, latString: artwork.location?.lat ,lonString: artwork.location?.lon, locationIdentifier: artwork.location?.uuid!, image: artwork.image, groupLocation: artwork.location?.locationNotes)
-            
-            assignedAnnotations.append(annotation)
-        }
-        
-        return assignedAnnotations
-    }()
+    var annotations: [Artworks]?
     
-    
-    var tableContents: [ArtworkLocation] = {
-        
-        var locationData = CoreDataRequests.getLocations()
-        var locationsForTableContents: [ArtworkLocation] = []
-        
-        for location in locationData {
-    
-            let artworkArray = Array(location.artworks!) as? Array<CoreArtwork>
-            let artworkLocation = ArtworkLocation(locationNote: location.locationNotes!, latString: location.lat, lonString: location.lon, artworks: artworkArray)
-            locationsForTableContents.append(artworkLocation)
-        }
-        
-        return locationsForTableContents
-    }()
+    var tableContents: [ArtworkLocation]?
     
     
     // Create a location manager to trigger user tracking
@@ -61,8 +33,66 @@ class MapAndTableVC: UIViewController {
     }()
     
     
+    func setAnnotations() {
+    
+        let artworksData = CoreDataRequests.getArtworks()    // Request from CoreData
+        var assignedAnnotations: [Artworks] = []
+        
+        for artwork in artworksData {
+            
+            //ToDo: Check how many of these i will need
+            let annotation = Artworks(id: artwork.id, title: artwork.title, artist: artwork.artist, yearOfWork: artwork.yearOfWork, information: artwork.information, locationNotes: artwork.locationNotes, fileName: artwork.fileName, latString: artwork.location?.lat ,lonString: artwork.location?.lon, locationIdentifier: artwork.location?.uuid!, image: artwork.image, groupLocation: artwork.location?.locationNotes)
+            
+            assignedAnnotations.append(annotation)
+        }
+        
+        annotations =  assignedAnnotations
+    }
+    
+    func setTableContents() {
+        
+        let locationData = CoreDataRequests.getLocations()
+        var locationsForTableContents: [ArtworkLocation] = []
+        
+        for location in locationData {
+            
+            let artworkArray = Array(location.artworks!) as? Array<CoreArtwork>
+            let artworkLocation = ArtworkLocation(locationNote: location.locationNotes!, latString: location.lat, lonString: location.lon, artworks: artworkArray)
+            locationsForTableContents.append(artworkLocation)
+        }
+        
+        tableContents = locationsForTableContents
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+//        CoreDataRequests.getDecodeAndSaveArtworkData(urlString: "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus/data.php?class=artworks", completion: { (success) in
+//
+//            self.setAnnotations()
+//            self.setTableContents()
+//            self.table.reloadData()
+//
+//            if let annotations = self.annotations {
+//                self.map.addAnnotations(annotations)
+//            }
+//
+//
+//        })
+        
+        // Temp for Testing
+        CoreDataRequests.getDecodeAndSaveArtworkDataTest(menuFileName: "artworks", completion: { (success) in
+            
+            self.setAnnotations()
+            self.setTableContents()
+            self.table.reloadData()
+            
+            if let annotations = self.annotations {
+                self.map.addAnnotations(annotations)
+            }
+        })
+
     
         map.delegate = self
         locationManager.delegate = self
@@ -76,9 +106,13 @@ class MapAndTableVC: UIViewController {
 
 
     override func viewDidAppear(_ animated: Bool) {
-        
+    
         map.deselectAnnotation(currentlySelectedAnnotation, animated: true)
-        map.addAnnotations(annotations)
+        
+        if let annotations = self.annotations {
+           map.addAnnotations(annotations)
+        }
+        
         table.reloadData()
     }
     
@@ -105,14 +139,20 @@ class MapAndTableVC: UIViewController {
         
         var artworkArry: [Artworks] = []
         // Filters array with items of same selectedLocationIdentifier
-        artworkArry = annotations.filter { $0.locationIdentifier == selectedLocationIdentifier }
+        if let annotations = self.annotations {
+            artworkArry = annotations.filter { $0.locationIdentifier == selectedLocationIdentifier }
+        }
+        
         return artworkArry
     }
     
     
     func sortTableContentsByDistance() {
         
-        tableContents = tableContents.sorted(by: { $0.distanceFromLocation() < $1.distanceFromLocation() })
+        if let tableContents = self.tableContents {
+            self.tableContents = tableContents.sorted(by: { $0.distanceFromLocation() < $1.distanceFromLocation() })
+        }
+        
     }
 }
 
@@ -186,26 +226,57 @@ extension MapAndTableVC: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return tableContents[section].loctionNote
+        return tableContents![section].loctionNote
     }
     
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return tableContents.count
+        
+        if let tableContents = self.tableContents {
+           
+            return tableContents.count
+        }
+        
+        return 0
     }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableContents[section].artworks!.count
+        
+        if let tableContents = self.tableContents {
+            return tableContents[section].artworks!.count
+        }
+        
+        return 0
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "tableCell")
-        cell.textLabel!.text = tableContents[indexPath.section].artworks![indexPath.row].title
-        cell.detailTextLabel?.text = tableContents[indexPath.section].artworks![indexPath.row].artist
+        cell.textLabel!.text = tableContents![indexPath.section].artworks![indexPath.row].title
+        cell.detailTextLabel?.text = tableContents![indexPath.section].artworks![indexPath.row].artist
         return cell
     }
+    
+    
+    
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if let artwork = CoreDataRequests.getArtworkFrom(id: tableContents![indexPath.section].artworks![indexPath.row].id) {
+            
+            let selectedArtwork = Artworks(id: artwork.id, title: artwork.title, artist: artwork.artist, yearOfWork: artwork.yearOfWork, information: artwork.information, locationNotes: artwork.locationNotes, fileName: artwork.fileName, latString: artwork.location?.lat ,lonString: artwork.location?.lon, locationIdentifier: artwork.location?.uuid!, image: artwork.image, groupLocation: artwork.location?.locationNotes)
+            
+            var selectedArtworks: [Artworks] = []
+            selectedArtworks.append(selectedArtwork)
+            selectedArtworkCollection = selectedArtworks
+            
+            performSegue(withIdentifier: "toDescription", sender: nil)
+        }
+        
+        return indexPath
+    }
+    
+    
+
 }
 

@@ -102,7 +102,7 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IZp-gu-FaP">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="275.5"/>
                             </mapView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4ec-br-rZu">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4ec-br-rZu">
                                 <rect key="frame" x="0.0" y="275.5" width="375" height="275.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -326,7 +326,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="531"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" semanticContentAttribute="playback" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Z44-Fa-xD6">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" semanticContentAttribute="playback" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Z44-Fa-xD6">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="265.5"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="247" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pc9-jy-Tp9">
@@ -420,6 +420,32 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7QW-hi-9u7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3545" y="162"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="baa-hd-iHE">
+            <objects>
+                <viewController id="P0M-VS-BRe" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6yp-nk-QW7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k2c-Gc-fUH">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="k2c-Gc-fUH" firstAttribute="bottom" secondItem="Vy5-lA-bSo" secondAttribute="bottom" id="aTh-rz-ssG"/>
+                            <constraint firstItem="k2c-Gc-fUH" firstAttribute="leading" secondItem="Vy5-lA-bSo" secondAttribute="leading" id="aVH-gy-WLb"/>
+                            <constraint firstItem="k2c-Gc-fUH" firstAttribute="trailing" secondItem="Vy5-lA-bSo" secondAttribute="trailing" id="gff-19-kml"/>
+                            <constraint firstItem="k2c-Gc-fUH" firstAttribute="top" secondItem="6yp-nk-QW7" secondAttribute="top" id="zJb-5U-mps"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Vy5-lA-bSo"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HTu-4u-lvM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4410.3999999999996" y="200.14992503748127"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
