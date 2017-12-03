@@ -29,7 +29,6 @@ class CollectionVC: UIViewController {
         super.viewDidLoad()
 
         if let groupLocation = annotationData?.first?.groupLocation {
-//          titleLabel.title = groupLocation
             title = groupLocation
         }
     }
