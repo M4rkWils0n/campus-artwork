@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C1188A271FD0C14A008E5B17 /* ArtworkLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1188A261FD0C14A008E5B17 /* ArtworkLocations.swift */; };
+		C1188A291FD1CBB5008E5B17 /* LoadingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1188A281FD1CBB5008E5B17 /* LoadingVC.swift */; };
 		C15A45FE1FCB2F40007DE81F /* MapAndTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15A45FD1FCB2F40007DE81F /* MapAndTableVC.swift */; };
 		C16148FA1FD08145003FF1E4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C16148F91FD08144003FF1E4 /* Default-568h@2x.png */; };
 		C172D3CA1FCC326E00192FB0 /* ArtworkDescriptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C172D3C91FCC326E00192FB0 /* ArtworkDescriptionVC.swift */; };
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		C1188A261FD0C14A008E5B17 /* ArtworkLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkLocations.swift; sourceTree = "<group>"; };
+		C1188A281FD1CBB5008E5B17 /* LoadingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingVC.swift; sourceTree = "<group>"; };
 		C15A45FD1FCB2F40007DE81F /* MapAndTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAndTableVC.swift; sourceTree = "<group>"; };
 		C16148F91FD08144003FF1E4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		C172D3C91FCC326E00192FB0 /* ArtworkDescriptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkDescriptionVC.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 				C1C48DDC1FC73E65006EC9BE /* Model */,
 				C1C48DC71FC72536006EC9BE /* AppDelegate.swift */,
 				C1C48DC91FC72536006EC9BE /* ViewController.swift */,
+				C1188A281FD1CBB5008E5B17 /* LoadingVC.swift */,
 				C181439D1FCFFE4F0023D3E1 /* CollectionVC.swift */,
 				C1C48DCB1FC72536006EC9BE /* Main.storyboard */,
 				C181439F1FD015D10023D3E1 /* CollectionVCell.swift */,
@@ -206,6 +209,7 @@
 				C1C48DC81FC72536006EC9BE /* AppDelegate.swift in Sources */,
 				C181439E1FCFFE4F0023D3E1 /* CollectionVC.swift in Sources */,
 				C15A45FE1FCB2F40007DE81F /* MapAndTableVC.swift in Sources */,
+				C1188A291FD1CBB5008E5B17 /* LoadingVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

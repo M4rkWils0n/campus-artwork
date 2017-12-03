@@ -57,8 +57,13 @@ extension CollectionVC: UICollectionViewDelegate, UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! CollectionVCell
         
         cell.textLabel.text = annotationData![indexPath.item].artist!
-        cell.cellImage.image = UIImage(data: (annotationData![indexPath.item].image)!)
-//        UIImage(data: (annotationData?.image)!)
+        
+        if let image = annotationData![indexPath.item].image {
+            
+            cell.cellImage.image = UIImage(data: image)
+        }
+        
+        
         
         return cell
     }

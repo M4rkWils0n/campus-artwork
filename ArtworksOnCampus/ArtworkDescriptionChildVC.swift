@@ -24,6 +24,9 @@ class ArtworkDescriptionChildVC: UIViewController {
         artworkLabel.text = annotationData?.title
         yearLabel.text = annotationData?.yearOfWork
         informationLabel.text = annotationData?.information
-        imagePanel.image = UIImage(data: (annotationData?.image)!)
+        
+        if let image = annotationData?.image {
+            imagePanel.image = UIImage(data: image)
+        }
     }
 }

@@ -31,48 +31,30 @@ class CoreDataRequests {
                     // Check to see if specific artwork exists
                     if(!doesArkworkExistWith(id: artwork.id!)) {
                         
-                        if let existingStoredLocation = doesLocationExistWithCoOrds(lat: artwork.lat!, lon: artwork.long!) {
+                        print("Downloading \(String(describing: artwork.title!))")
                         
+                        if let existingStoredLocation = doesLocationExistWithCoOrds(lat: artwork.lat!, lon: artwork.long!) {
+                            
                             let newArtwork = CoreArtwork(context: PersistenceService.context)
-                            newArtwork.id = Int16(artwork.id!)!
-                            newArtwork.title = artwork.title
-                            newArtwork.artist = artwork.artist
-                            newArtwork.yearOfWork = artwork.yearOfWork
-                            newArtwork.information = artwork.Information
-                            newArtwork.locationNotes = artwork.locationNotes
-                
-                            let stringConcat = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artwork_images/" + artwork.fileName!
-                            let urlString = stringConcat.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
-                            newArtwork.fileName = urlString
-                            newArtwork.lastModified = artwork.lastModified
-                           
-                            existingStoredLocation.addToArtworks(newArtwork)
+                            let assignedArtwork = self.addNewArtwork(newArtwork: newArtwork, artwork: artwork)
+                            existingStoredLocation.addToArtworks(assignedArtwork)
                             
                         } else {
                          
                             let newLocation = CoreLocations(context: PersistenceService.context)
                             newLocation.lat = artwork.lat
                             newLocation.lon = artwork.long
+                            newLocation.uuid = NSUUID().uuidString
                       
                             if let rawLocationNotes = artwork.locationNotes {
                                 let index = rawLocationNotes.index(of: ",") ?? rawLocationNotes.endIndex
                                 newLocation.locationNotes = String(rawLocationNotes[..<index])
                             }
-                            newLocation.uuid = NSUUID().uuidString
                             
                             let newArtwork = CoreArtwork(context: PersistenceService.context)
-                            newArtwork.id = Int16(artwork.id!)!
-                            newArtwork.title = artwork.title
-                            newArtwork.artist = artwork.artist
-                            newArtwork.yearOfWork = artwork.yearOfWork
-                            newArtwork.information = artwork.Information
-                            newArtwork.locationNotes = artwork.locationNotes
+                            let assignedArtwork = self.addNewArtwork(newArtwork: newArtwork, artwork: artwork)
                             
-                            let stringConcat = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artwork_images/" + artwork.fileName!
-                            let urlString = stringConcat.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
-                            newArtwork.fileName = urlString
-                            newArtwork.lastModified = artwork.lastModified
-                            newLocation.addToArtworks(newArtwork)
+                            newLocation.addToArtworks(assignedArtwork)
                         }
                     }
                 }
@@ -96,14 +78,33 @@ class CoreDataRequests {
     }
     
     
+    private static func addNewArtwork(newArtwork: CoreArtwork, artwork: Artwork) -> CoreArtwork {
+        
+        let newItem = newArtwork
+        
+        newItem.id = Int16(artwork.id!)!
+        newItem.title = artwork.title
+        newItem.artist = artwork.artist
+        newItem.yearOfWork = artwork.yearOfWork
+        newItem.information = artwork.Information
+        newItem.locationNotes = artwork.locationNotes
+        
+        let stringConcat = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artwork_images/" + artwork.fileName!
+        let urlString = stringConcat.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        newItem.fileName = urlString
+        newItem.lastModified = artwork.lastModified
+        
+        return newItem
+    }
+    
+    
+    
     private static func getImageFrom(urlString: String, artwork: CoreArtwork) {
         
         if let url = URL(string: urlString){
         
             var imageData: NSData?
-            
             let session = URLSession.shared
-            
             session.dataTask(with: url) { (data, response, error) in
                 
                 guard let data = data else { return }
@@ -124,7 +125,7 @@ class CoreDataRequests {
         }
     }
     
-    static func getImagesForArtworks(){
+    static func getImagesForArtworks(completion: @escaping (_ success:Bool) -> Void){
         
         let artworks = getArtworks()
         
@@ -138,7 +139,98 @@ class CoreDataRequests {
                 }
             }
         }
+        
+        completion(true)
     }
+    
+    
+    
+    static func storeInitialArtworkImages(artworks: [CoreArtwork], index: Int, completion: @escaping (_ success: Bool) -> Void) {
+        
+        guard index < artworks.count else {
+            print("End")
+            completion(true)
+            return
+        }
+        
+        let artwork = artworks[index]
+        
+        guard artwork.image == nil else {
+            print("No Image")
+            
+            CoreDataRequests.storeInitialArtworkImages(artworks: artworks,index: index + 1, completion: { (success) in
+                
+                completion(true)
+                return
+            })
+            
+            return
+        }
+        
+        if let urlString = artwork.fileName {
+          
+            if let url = URL(string: urlString) {
+                
+                var imageData: NSData?
+                let session = URLSession.shared
+                session.dataTask(with: url) { (data, response, error) in
+                    
+                    print("Downloading \(String(describing: artwork.fileName!))")
+                    guard let data = data else { return }
+                    
+                    if let image = UIImage(data: data) {
+                        
+                        imageData = UIImagePNGRepresentation(image)! as NSData
+                        artwork.image = imageData as Data?
+                        
+                        do{
+                            try PersistenceService.context.save()
+                        } catch {
+                            print("error")
+                        }
+                    }
+                    
+                    CoreDataRequests.storeInitialArtworkImages(artworks: artworks,index: index + 1, completion: { (success) in
+                        
+                        completion(true)
+                        
+                    })
+                }.resume()
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     // Checks to see if Artwork Exists in core data
     private static func doesArkworkExistWith(id: String) -> Bool {

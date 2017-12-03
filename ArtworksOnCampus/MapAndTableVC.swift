@@ -70,6 +70,8 @@ class MapAndTableVC: UIViewController {
         table.delegate = self
         
         map.register(MarkerAnnotationView.self,forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        
+        
     }
 
 
@@ -142,9 +144,12 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
     
     func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
         
+        let itemFromMemberAnnotations = memberAnnotations.first as! Artworks
+        
         let cluster = MKClusterAnnotation(memberAnnotations: memberAnnotations)
         
-        cluster.title = nil
+        cluster.title = itemFromMemberAnnotations.groupLocation
+        
         cluster.subtitle = nil
         
         return cluster
