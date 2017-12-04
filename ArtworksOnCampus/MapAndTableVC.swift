@@ -65,6 +65,12 @@ class MapAndTableVC: UIViewController {
     }
     
     
+    @IBAction func focusOnUserClick(_ sender: UIButton) {
+    
+        focusOnUserLocation()
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -124,12 +130,12 @@ class MapAndTableVC: UIViewController {
     
     func focusOnUserLocation() {
         
-        let userLocation:CLLocation = locationManager.location!
-        
-        let center = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
-        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
-        
-        map.setRegion(region, animated: true)
+        if let userLocation:CLLocation = locationManager.location {
+            
+            let center = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
+            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
+            map.setRegion(region, animated: true)
+        }
     }
     
     

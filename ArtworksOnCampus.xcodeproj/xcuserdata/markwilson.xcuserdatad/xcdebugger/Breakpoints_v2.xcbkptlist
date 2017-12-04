@@ -6,63 +6,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ArtworksOnCampus/MapAndTableVC.swift"
-            timestampString = "534084986.645767"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ArtworksOnCampus.MapAndTableVC.viewDidLoad() -&gt; ()"
-                  moduleName = "ArtworksOnCampus"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/markwilson/Dropbox/1.%20Software%20Development/4.%20Year%204/3.%20Mobile%20Computing/1.%20Assignments/Assignment_2/ArtworksOnCampus/ArtworksOnCampus/MapAndTableVC.swift"
-                  timestampString = "534016134.24491"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "71"
-                  endingLineNumber = "71"
-                  offsetFromSymbolStart = "83">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Bool) -&gt; () in ArtworksOnCampus.MapAndTableVC.viewDidLoad() -&gt; ()"
-                  moduleName = "ArtworksOnCampus"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/markwilson/Dropbox/1.%20Software%20Development/4.%20Year%204/3.%20Mobile%20Computing/1.%20Assignments/Assignment_2/ArtworksOnCampus/ArtworksOnCampus/MapAndTableVC.swift"
-                  timestampString = "534016134.250221"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "73"
-                  endingLineNumber = "73"
-                  offsetFromSymbolStart = "32">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ArtworksOnCampus/MapAndTableVC.swift"
-            timestampString = "534084986.646405"
+            timestampString = "534116831.140196"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "218"
-            endingLineNumber = "218"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
             landmarkName = "mapView(_:didSelect:)"
             landmarkType = "7">
          </BreakpointContent>
