@@ -189,9 +189,9 @@ class CoreDataRequests {
                     
                     DispatchQueue.main.async(execute: {
                         
-                        let updateCell = source.cellForItem(at: indexPath) as! CollectionVCell
+                        let updateCell = source.cellForItem(at: indexPath) as? CollectionVCell
                         let img = UIImage(data: data)
-                        updateCell.cellImage.image = img
+                        updateCell?.cellImage.image = img
                         
                         let artwork = getArtworkFrom(id: annotation.id!)
                         imageData = UIImagePNGRepresentation(img!)! as NSData
