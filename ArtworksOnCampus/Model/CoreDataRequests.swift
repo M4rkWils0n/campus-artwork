@@ -208,7 +208,7 @@ class CoreDataRequests {
     }
     
     
-    static func downloadImageNeededForDesription(source: UIImageView, annotation: Artworks) {
+    static func downloadImageNeededForDesription(source: UIButton, annotation: Artworks) {
         
         let updateItem = source
         
@@ -224,7 +224,7 @@ class CoreDataRequests {
                 DispatchQueue.main.async(execute: {
                     
                     let img = UIImage(data: data)
-                    updateItem.image = img
+                    updateItem.setImage(img, for: .normal)
                     let artwork = getArtworkFrom(id: annotation.id!)
                     imageData = UIImagePNGRepresentation(img!)! as NSData
                     artwork?.image = imageData as Data?

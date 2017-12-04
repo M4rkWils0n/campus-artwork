@@ -68,7 +68,25 @@ class MapAndTableVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-//        CoreDataRequests.getDecodeAndSaveArtworkData(urlString: "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus/data.php?class=artworks", completion: { (success) in
+        CoreDataRequests.getDecodeAndSaveArtworkData(urlString: "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus/data.php?class=artworks", completion: { (success) in
+
+            self.setAnnotations()
+            self.setTableContents()
+            
+            DispatchQueue.main.async {
+                self.table.reloadData()
+            }
+            
+    
+            if let annotations = self.annotations {
+                self.map.addAnnotations(annotations)
+            }
+
+
+        })
+        
+//        // Temp for Testing
+//        CoreDataRequests.getDecodeAndSaveArtworkDataTest(menuFileName: "artworks", completion: { (success) in
 //
 //            self.setAnnotations()
 //            self.setTableContents()
@@ -77,21 +95,7 @@ class MapAndTableVC: UIViewController {
 //            if let annotations = self.annotations {
 //                self.map.addAnnotations(annotations)
 //            }
-//
-//
 //        })
-        
-        // Temp for Testing
-        CoreDataRequests.getDecodeAndSaveArtworkDataTest(menuFileName: "artworks", completion: { (success) in
-            
-            self.setAnnotations()
-            self.setTableContents()
-            self.table.reloadData()
-            
-            if let annotations = self.annotations {
-                self.map.addAnnotations(annotations)
-            }
-        })
 
     
         map.delegate = self
@@ -101,19 +105,31 @@ class MapAndTableVC: UIViewController {
         
         map.register(MarkerAnnotationView.self,forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         
-        
+        focusOnUserLocation()
     }
 
 
     override func viewDidAppear(_ animated: Bool) {
     
         map.deselectAnnotation(currentlySelectedAnnotation, animated: true)
-        
+
         if let annotations = self.annotations {
            map.addAnnotations(annotations)
         }
         
         table.reloadData()
+    }
+    
+    
+    
+    func focusOnUserLocation() {
+        
+        let userLocation:CLLocation = locationManager.location!
+        
+        let center = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
+        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
+        
+        map.setRegion(region, animated: true)
     }
     
     
@@ -175,11 +191,12 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
         sortTableContentsByDistance()
         table.reloadData()
         
-        let center = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
-        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
+//        let center = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
+//        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
         
-        map.setRegion(region, animated: true)
+//        map.setRegion(region, animated: true)
     }
+    
     
     
     func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {

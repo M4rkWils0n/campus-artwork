@@ -10,12 +10,19 @@ import UIKit
 
 class ArtworkDescriptionChildVC: UIViewController {
 
+    var annotationData: Artworks?
+    
     @IBOutlet weak var artworkLabel: UILabel!
     @IBOutlet weak var yearLabel: UILabel!
     @IBOutlet weak var informationLabel: UILabel!
-    @IBOutlet weak var imagePanel: UIImageView!
+    @IBOutlet weak var imageButton: UIButton!
     
-    var annotationData: Artworks?
+    var viewArtwork: CoreArtwork?
+    
+    @IBAction func imageButtonClick(_ sender: Any) {
+    
+        performSegue(withIdentifier: "toImage", sender: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,21 +31,34 @@ class ArtworkDescriptionChildVC: UIViewController {
         yearLabel.text = annotationData?.yearOfWork
         informationLabel.text = annotationData?.information
         
-        
         if let artwork = CoreDataRequests.getArtworkFrom(id: annotationData!.id!) {
             
+            viewArtwork = artwork
+            
             if let image = artwork.image {
-                imagePanel.image = UIImage(data: image)
-                
+
+                imageButton.setImage(UIImage(data: image), for: .normal)
             } else {
                 
-                imagePanel.image = UIImage(named: "placeholder")
-                CoreDataRequests.downloadImageNeededForDesription(source: imagePanel, annotation: annotationData!)
+                imageButton.imageView?.image = UIImage(named: "placeholder")
+                CoreDataRequests.downloadImageNeededForDesription(source: imageButton, annotation: annotationData!)
             }
         
         } else {
             
-            imagePanel.image = UIImage(named: "placeholder")
+            imageButton.setImage(UIImage(named: "placeholder"), for: .normal)
         }
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        let nextViewController = segue.destination as! ImageViewController
+        
+        nextViewController.passedImage = UIImage(data: (viewArtwork?.image!)!)
+        
+        nextViewController.imageName = viewArtwork?.title
+        
+
     }
 }
