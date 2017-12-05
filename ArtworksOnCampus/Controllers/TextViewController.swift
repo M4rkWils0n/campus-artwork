@@ -10,12 +10,12 @@ import UIKit
 
 class TextViewController: UIViewController {
 
+    var artwork: CoreArtwork?
+    
     @IBOutlet weak var artworkLabel: UILabel!
     @IBOutlet weak var artistLabel: UILabel!
     @IBOutlet weak var yearLabel: UILabel!
     @IBOutlet weak var textInformationLabel: UILabel!
-    
-    var artwork: CoreArtwork?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +29,5 @@ class TextViewController: UIViewController {
             yearLabel.text = artwork.yearOfWork
             textInformationLabel.text = artwork.information
         }
-        
-        // Do any additional setup after loading the view.
     }
 }

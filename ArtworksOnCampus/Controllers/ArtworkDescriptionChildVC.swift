@@ -11,24 +11,19 @@ import UIKit
 class ArtworkDescriptionChildVC: UIViewController {
 
     var annotationData: Artworks?
+    var viewArtwork: CoreArtwork?
     
     @IBOutlet weak var artworkLabel: UILabel!
     @IBOutlet weak var yearLabel: UILabel!
     @IBOutlet weak var informationLabel: UILabel!
     @IBOutlet weak var imageButton: UIButton!
     
-    var viewArtwork: CoreArtwork?
-    
     @IBAction func imageButtonClick(_ sender: Any) {
-    
         performSegue(withIdentifier: "toImage", sender: nil)
     }
     
-    
     @IBAction func descriptionButtonClick(_ sender: Any) {
-    
         performSegue(withIdentifier: "toArtworkDescription", sender: nil)
-    
     }
     
     override func viewDidLoad() {
@@ -39,20 +34,16 @@ class ArtworkDescriptionChildVC: UIViewController {
         informationLabel.text = annotationData?.information
         
         if let artwork = CoreDataRequests.getArtworkFrom(id: annotationData!.id!) {
-            
             viewArtwork = artwork
             
             if let image = artwork.image {
-
                 imageButton.setImage(UIImage(data: image), for: .normal)
-            } else {
                 
+            } else {
                 imageButton.imageView?.image = UIImage(named: "placeholder")
                 CoreDataRequests.downloadImageNeededForDesription(source: imageButton, annotation: annotationData!)
             }
-        
         } else {
-            
             imageButton.setImage(UIImage(named: "placeholder"), for: .normal)
         }
     }
@@ -61,19 +52,13 @@ class ArtworkDescriptionChildVC: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "toImage" {
-            
             let nextViewController = segue.destination as! ImageViewController
             nextViewController.passedImage = UIImage(data: (viewArtwork?.image!)!)
             nextViewController.imageName = viewArtwork?.title
         
         } else if segue.identifier == "toArtworkDescription" {
-           
             let nextViewController = segue.destination as! TextViewController
             nextViewController.artwork = viewArtwork
         }
-        
-
-        
-
     }
 }

@@ -10,10 +10,10 @@ import UIKit
 
 class ImageViewController: UIViewController {
     
-    @IBOutlet weak var image: UIImageView!
-    
     var passedImage: UIImage?
     var imageName: String?
+    
+    @IBOutlet weak var image: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()

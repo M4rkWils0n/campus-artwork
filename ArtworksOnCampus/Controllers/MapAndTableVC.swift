@@ -16,9 +16,7 @@ class MapAndTableVC: UIViewController {
     
     var selectedArtworkCollection: [Artworks]?
     var currentlySelectedAnnotation: Artworks?
-    
     var annotations: [Artworks]?
-    
     var tableContents: [ArtworkLocation]?
     
     // Create a location manager to trigger user tracking
@@ -37,7 +35,6 @@ class MapAndTableVC: UIViewController {
         var assignedAnnotations: [Artworks] = []
         
         for artwork in artworksData {
-            
             //ToDo: Check how many of these i will need
             let annotation = Artworks(id: artwork.id, title: artwork.title, artist: artwork.artist, yearOfWork: artwork.yearOfWork, information: artwork.information, locationNotes: artwork.locationNotes, fileName: artwork.fileName, latString: artwork.location?.lat ,lonString: artwork.location?.lon, locationIdentifier: artwork.location?.uuid!, image: artwork.image, groupLocation: artwork.location?.locationNotes)
             
@@ -48,7 +45,6 @@ class MapAndTableVC: UIViewController {
     }
     
     func setTableContents() {
-        
         let locationData = CoreDataRequests.getLocations()
         var locationsForTableContents: [ArtworkLocation] = []
         
@@ -64,7 +60,6 @@ class MapAndTableVC: UIViewController {
     
     
     @IBAction func focusOnUserClick(_ sender: UIButton) {
-    
         focusOnUserLocation()
     }
     
@@ -76,17 +71,14 @@ class MapAndTableVC: UIViewController {
         
         // Check for updates
         if let lastUpdate = UserDefaults.standard.value(forKey: "last_update") {
-    
             urlString = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus/data.php?class=artworks&lastUpdate=\(lastUpdate)"
             getArtworkFromLastUpdate(urlString: urlString)
 
         // First ever system run
         } else {
-            
             urlString = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus/data.php?class=artworks"
             getArtwork(urlString: urlString)
         }
-        
         
         map.delegate = self
         locationManager.delegate = self
@@ -98,6 +90,7 @@ class MapAndTableVC: UIViewController {
         focusOnUserLocation()
     }
 
+    // Get artwork data - initial request
     private func getArtwork(urlString: String) {
     
         CoreDataRequests.getDecodeAndSaveArtworkData(urlString: urlString, completion: { (success) in
@@ -121,6 +114,7 @@ class MapAndTableVC: UIViewController {
         })
     }
     
+    // Get new amended artwork data
     private func getArtworkFromLastUpdate(urlString: String) {
         
         CoreDataRequests.getDecodeSaveAndUpdateLastUpdateDataFrom(urlString: urlString, completion: { (success) in
@@ -156,7 +150,7 @@ class MapAndTableVC: UIViewController {
         table.reloadData()
     }
     
-    
+    // Focuses on user location
     func focusOnUserLocation() {
         
         if let userLocation:CLLocation = locationManager.location {
@@ -167,7 +161,7 @@ class MapAndTableVC: UIViewController {
         }
     }
     
-    
+    // Prepare for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      
         if segue.identifier == "toDescription" {
@@ -184,7 +178,7 @@ class MapAndTableVC: UIViewController {
         }
     }
 
-    
+    // gets array of Artwork data from locationIdentifier
     func getArtworkDataBy(selectedLocationIdentifier: String) -> [Artworks]? {
         
         var artworkArry: [Artworks] = []
@@ -196,7 +190,7 @@ class MapAndTableVC: UIViewController {
         return artworkArry
     }
     
-    
+    // Sorts table by section from closest to user to furthest
     func sortTableContentsByDistance() {
         
         if let tableContents = self.tableContents {
@@ -208,13 +202,13 @@ class MapAndTableVC: UIViewController {
 
 
 /*
- *
  *  Class Extension for Map and Location Functions
  *  MapView Delegate
  *  Location Manager Delegate
  */
 extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
 
+    // When location updates, Artworks and Locations are updated
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         let userLocation:CLLocation = locations[0] as CLLocation
@@ -224,25 +218,21 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
 
         sortTableContentsByDistance()
         table.reloadData()
-        
     }
     
-    
+    //  returns cluster of Annotations based on location
     func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
         
         let itemFromMemberAnnotations = memberAnnotations.first as! Artworks
-        
         let cluster = MKClusterAnnotation(memberAnnotations: memberAnnotations)
-        
         cluster.title = itemFromMemberAnnotations.groupLocation
-        
         cluster.subtitle = nil
         
         return cluster
     }
     
     
-    // Annotation clicked
+    // gets annotation clicked and performs segue to relevant view
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
         currentlySelectedAnnotation = view.annotation as? Artworks
@@ -254,10 +244,9 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
                 selectedArtworkCollection = artworkCollection
                 
                 if(artworkCollection.count > 1) {
-                   
-                    performSegue(withIdentifier: "toCollection", sender: nil)
+                   performSegue(withIdentifier: "toCollection", sender: nil)
+                
                 } else {
-                    
                     performSegue(withIdentifier: "toDescription", sender: nil)
                 }
             }
@@ -267,26 +256,29 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
 
 
 
-// Class extension for table
+/*
+ *  Class Extension for Table
+ *  TableView Delegate
+ *  TableView DataSource
+ */
 extension MapAndTableVC: UITableViewDelegate, UITableViewDataSource {
     
-    
+    // sets the title for specfic header
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return tableContents![section].loctionNote
     }
     
-    
+    // Sets number of sections in table
     func numberOfSections(in tableView: UITableView) -> Int {
         
         if let tableContents = self.tableContents {
-           
             return tableContents.count
         }
         
         return 0
     }
     
-    
+    // Sets number of rows in specific section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if let tableContents = self.tableContents {
@@ -296,7 +288,7 @@ extension MapAndTableVC: UITableViewDelegate, UITableViewDataSource {
         return 0
     }
     
-    
+    // Sets cell for table
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "tableCell")
@@ -305,7 +297,7 @@ extension MapAndTableVC: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    
+    // when row of table is clicked data from row is converted to the connected Artwork and segue performed
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         if let artwork = CoreDataRequests.getArtworkFrom(id: tableContents![indexPath.section].artworks![indexPath.row].id) {
             
@@ -320,8 +312,5 @@ extension MapAndTableVC: UITableViewDelegate, UITableViewDataSource {
         
         return indexPath
     }
-    
-    
-
 }
 

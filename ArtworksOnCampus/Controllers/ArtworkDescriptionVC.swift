@@ -10,25 +10,17 @@ import UIKit
 
 class ArtworkDescriptionVC: UIViewController {
 
-    @IBAction func doneButtonClicked(_ sender: Any) {
-    
-        self.dismiss(animated: true)
-    }
-    
-    @IBOutlet weak var titleLabel: UINavigationItem!
+    var annotationData: Artworks?
     
     @IBOutlet weak var subView: UIView!
     
-    var annotationData: Artworks?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         title = annotationData?.artist
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         // Passes data to subView
         let nextViewController = segue.destination as! ArtworkDescriptionChildVC
         nextViewController.annotationData = self.annotationData
