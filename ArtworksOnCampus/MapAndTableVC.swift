@@ -88,19 +88,6 @@ class MapAndTableVC: UIViewController {
         }
         
         
-//        // Temp for Testing
-//        CoreDataRequests.getDecodeAndSaveArtworkDataTest(menuFileName: "artworks", completion: { (success) in
-//
-//            self.setAnnotations()
-//            self.setTableContents()
-//            self.table.reloadData()
-//
-//            if let annotations = self.annotations {
-//                self.map.addAnnotations(annotations)
-//            }
-//        })
-
-    
         map.delegate = self
         locationManager.delegate = self
         table.dataSource = self
@@ -199,7 +186,6 @@ class MapAndTableVC: UIViewController {
         }
     }
 
-    
     
     func getArtworkDataBy(selectedLocationIdentifier: String) -> [Artworks]? {
         

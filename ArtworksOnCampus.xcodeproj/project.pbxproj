@@ -17,7 +17,6 @@
 		C18482CF1FCE0DB800F5C499 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18482CE1FCE0DB800F5C499 /* CustomAnnotation.swift */; };
 		C18482F61FCE276800F5C499 /* MarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18482F51FCE276800F5C499 /* MarkerAnnotationView.swift */; };
 		C1B6815E1FD4191000C04622 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = C1B6815D1FD4191000C04622 /* placeholder.png */; };
-		C1B681601FD493D600C04622 /* artworks.json in Resources */ = {isa = PBXBuildFile; fileRef = C1B6815F1FD493D600C04622 /* artworks.json */; };
 		C1B681621FD4C13C00C04622 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B681611FD4C13C00C04622 /* ImageViewController.swift */; };
 		C1C48DC81FC72536006EC9BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C48DC71FC72536006EC9BE /* AppDelegate.swift */; };
 		C1C48DCA1FC72536006EC9BE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C48DC91FC72536006EC9BE /* ViewController.swift */; };
@@ -41,7 +40,6 @@
 		C18482CE1FCE0DB800F5C499 /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		C18482F51FCE276800F5C499 /* MarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerAnnotationView.swift; sourceTree = "<group>"; };
 		C1B6815D1FD4191000C04622 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
-		C1B6815F1FD493D600C04622 /* artworks.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = artworks.json; sourceTree = "<group>"; };
 		C1B681611FD4C13C00C04622 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		C1C48DC41FC72536006EC9BE /* ArtworksOnCampus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArtworksOnCampus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1C48DC71FC72536006EC9BE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -87,7 +85,6 @@
 		C1C48DC61FC72536006EC9BE /* ArtworksOnCampus */ = {
 			isa = PBXGroup;
 			children = (
-				C1B6815F1FD493D600C04622 /* artworks.json */,
 				C1C48DDD1FC73E74006EC9BE /* Controllers */,
 				C1C48DDC1FC73E65006EC9BE /* Model */,
 				C1C48DC71FC72536006EC9BE /* AppDelegate.swift */,
@@ -189,7 +186,6 @@
 			files = (
 				C1C48DD51FC72536006EC9BE /* LaunchScreen.storyboard in Resources */,
 				C16148FA1FD08145003FF1E4 /* Default-568h@2x.png in Resources */,
-				C1B681601FD493D600C04622 /* artworks.json in Resources */,
 				C1C48DD21FC72536006EC9BE /* Assets.xcassets in Resources */,
 				C1B6815E1FD4191000C04622 /* placeholder.png in Resources */,
 				C1C48DCD1FC72536006EC9BE /* Main.storyboard in Resources */,

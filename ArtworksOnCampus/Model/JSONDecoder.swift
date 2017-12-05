@@ -13,13 +13,6 @@ struct ArtworkItems: Decodable {
     let artworks: [Artwork]?
 }
 
-// May not need this, check before submitting
-struct Locations: Decodable {
-    let id: Int16?
-    let lat: String?
-    let lon: String?
-}
-
 struct Artwork: Decodable {
     let id: String?
     let title: String?
