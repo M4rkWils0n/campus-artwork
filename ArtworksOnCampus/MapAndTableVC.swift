@@ -11,7 +11,6 @@ import MapKit
 
 class MapAndTableVC: UIViewController {
     
-    
     @IBOutlet weak var table: UITableView!
     @IBOutlet weak var map: MKMapView!
     
@@ -21,7 +20,6 @@ class MapAndTableVC: UIViewController {
     var annotations: [Artworks]?
     
     var tableContents: [ArtworkLocation]?
-    
     
     // Create a location manager to trigger user tracking
     let locationManager: CLLocationManager = {
@@ -74,22 +72,21 @@ class MapAndTableVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        CoreDataRequests.getDecodeAndSaveArtworkData(urlString: "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus/data.php?class=artworks", completion: { (success) in
-
-            self.setAnnotations()
-            self.setTableContents()
-            
-            DispatchQueue.main.async {
-                self.table.reloadData()
-            }
-            
+        var urlString = ""
+        
+        // Check for updates
+        if let lastUpdate = UserDefaults.standard.value(forKey: "last_update") {
     
-            if let annotations = self.annotations {
-                self.map.addAnnotations(annotations)
-            }
+            urlString = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus/data.php?class=artworks&lastUpdate=\(lastUpdate)"
+            getArtworkFromLastUpdate(urlString: urlString)
 
-
-        })
+        // First ever system run
+        } else {
+            
+            urlString = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus/data.php?class=artworks"
+            getArtwork(urlString: urlString)
+        }
+        
         
 //        // Temp for Testing
 //        CoreDataRequests.getDecodeAndSaveArtworkDataTest(menuFileName: "artworks", completion: { (success) in
@@ -114,7 +111,55 @@ class MapAndTableVC: UIViewController {
         focusOnUserLocation()
     }
 
-
+    private func getArtwork(urlString: String) {
+    
+        CoreDataRequests.getDecodeAndSaveArtworkData(urlString: urlString, completion: { (success) in
+            
+            self.setAnnotations()
+            self.setTableContents()
+            
+            if let annotations = self.annotations {
+                self.map.addAnnotations(annotations)
+            }
+            
+            DispatchQueue.main.async {
+                self.table.reloadData()
+            }
+            
+            let date = Date()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            let formattedDate = formatter.string(from: date)
+            
+            UserDefaults.standard.setValue(formattedDate, forKey: "last_update")
+        })
+    }
+    
+    private func getArtworkFromLastUpdate(urlString: String) {
+        
+        CoreDataRequests.getDecodeSaveAndUpdateLastUpdateDataFrom(urlString: urlString, completion: { (success) in
+            
+            self.setAnnotations()
+            self.setTableContents()
+            
+            if let annotations = self.annotations {
+                self.map.addAnnotations(annotations)
+            }
+            
+            DispatchQueue.main.async {
+                self.table.reloadData()
+            }
+            
+            let date = Date()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            let formattedDate = formatter.string(from: date)
+            
+            UserDefaults.standard.setValue(formattedDate, forKey: "last_update")
+        })
+    }
+    
+    
     override func viewDidAppear(_ animated: Bool) {
     
         map.deselectAnnotation(currentlySelectedAnnotation, animated: true)
@@ -125,7 +170,6 @@ class MapAndTableVC: UIViewController {
         
         table.reloadData()
     }
-    
     
     
     func focusOnUserLocation() {
@@ -197,12 +241,7 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
         sortTableContentsByDistance()
         table.reloadData()
         
-//        let center = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
-//        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
-        
-//        map.setRegion(region, animated: true)
     }
-    
     
     
     func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
@@ -281,7 +320,6 @@ extension MapAndTableVC: UITableViewDelegate, UITableViewDataSource {
         cell.detailTextLabel?.text = tableContents![indexPath.section].artworks![indexPath.row].artist
         return cell
     }
-    
     
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {

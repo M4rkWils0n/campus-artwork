@@ -99,13 +99,144 @@ class CoreDataRequests {
                     }
                 }
             
-                completion(true)
+            completion(true)
                 
             } catch let jsonErr {
                     print("Error decoding JSON", jsonErr)
             }
         }.resume()
     }
+    
+    
+    static func getDecodeSaveAndUpdateLastUpdateDataFrom(urlString: String, completion: @escaping (_ success: Bool) -> Void ) {
+        
+        guard let url = URL(string: urlString) else { return }
+        
+        let session = URLSession.shared
+        
+        session.dataTask(with: url) { (data, response, err) in
+            
+            guard let data = data else { return }
+
+            do{
+                let downloadedArtworkItems = try JSONDecoder().decode(ArtworkItems.self, from: data)
+                if let theArtworks = downloadedArtworkItems.artworks {
+                    
+                    for artwork in theArtworks {
+                        
+                        if doesArkworkExistWith(id: artwork.id!) {
+                            
+                            if let existingArtwork = self.getArtworkFrom(id: Int16(artwork.id!)!) {
+                                
+                                // This means that artwork needs updating
+                                existingArtwork.title = artwork.title
+                                existingArtwork.artist = artwork.artist
+                                existingArtwork.yearOfWork = artwork.yearOfWork
+                                existingArtwork.information = artwork.Information
+                                existingArtwork.locationNotes = artwork.locationNotes
+                                
+                                let stringConcat = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artwork_images/" + artwork.fileName!
+                                let urlString = stringConcat.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+                                existingArtwork.fileName = urlString
+                                existingArtwork.lastModified = artwork.lastModified
+                                
+                                // Need to delete image just incase that has changed
+                                existingArtwork.image = nil
+                                
+                                do{
+                                    try PersistenceService.context.save()
+                                } catch {
+                                    print("error")
+                                }
+                            }
+                            
+                            // New artwork
+                        } else {
+                            
+                            // Check to see if location exists
+                            if let existingStoredLocation = doesLocationExistWithCoOrds(lat: artwork.lat!, lon: artwork.long!) {
+                                
+                                let newArtwork = CoreArtwork(context: PersistenceService.context)
+                                newArtwork.id = Int16(artwork.id!)!
+                                newArtwork.title = artwork.title
+                                newArtwork.artist = artwork.artist
+                                newArtwork.yearOfWork = artwork.yearOfWork
+                                newArtwork.information = artwork.Information
+                                newArtwork.locationNotes = artwork.locationNotes
+                                
+                                let stringConcat = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artwork_images/" + artwork.fileName!
+                                let urlString = stringConcat.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+                                newArtwork.fileName = urlString
+                                newArtwork.lastModified = artwork.lastModified
+                                existingStoredLocation.addToArtworks(newArtwork)
+                                
+                                do {
+                                    PersistenceService.saveContext()
+                                }
+                                
+                                do{
+                                    try PersistenceService.context.save()
+                                } catch {
+                                    print("error")
+                                }
+                               
+                                // location does not exist
+                            } else {
+                                
+                                let newLocation = CoreLocations(context: PersistenceService.context)
+                                newLocation.lat = artwork.lat
+                                newLocation.lon = artwork.long
+                                newLocation.uuid = NSUUID().uuidString
+                                
+                                if let rawLocationNotes = artwork.locationNotes {
+                                    let index = rawLocationNotes.index(of: ",") ?? rawLocationNotes.endIndex
+                                    newLocation.locationNotes = String(rawLocationNotes[..<index])
+                                }
+                                
+                                let newArtwork = CoreArtwork(context: PersistenceService.context)
+                                newArtwork.id = Int16(artwork.id!)!
+                                newArtwork.title = artwork.title
+                                newArtwork.artist = artwork.artist
+                                newArtwork.yearOfWork = artwork.yearOfWork
+                                newArtwork.information = artwork.Information
+                                newArtwork.locationNotes = artwork.locationNotes
+                                
+                                let stringConcat = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artwork_images/" + artwork.fileName!
+                                let urlString = stringConcat.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+                                newArtwork.fileName = urlString
+                                newArtwork.lastModified = artwork.lastModified
+                                
+                                newLocation.addToArtworks(newArtwork)
+                                
+                                do {
+                                    PersistenceService.saveContext()
+                                }
+                                
+                                do{
+                                    try PersistenceService.context.save()
+                                } catch {
+                                    print("error")
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            completion(true)
+                
+            } catch let jsonErr {
+                
+                print("Error decoding JSON", jsonErr)
+            }
+        }.resume()
+        
+        
+    }
+    
+    
+    
+    
+    
     
 
     // Checks to see if Artwork Exists in core data
