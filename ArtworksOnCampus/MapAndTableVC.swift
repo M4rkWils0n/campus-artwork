@@ -105,12 +105,11 @@ class MapAndTableVC: UIViewController {
             self.setAnnotations()
             self.setTableContents()
             
-            if let annotations = self.annotations {
-                self.map.addAnnotations(annotations)
-            }
-            
             DispatchQueue.main.async {
                 self.table.reloadData()
+                if let annotations = self.annotations {
+                    self.map.addAnnotations(annotations)
+                }
             }
             
             let date = Date()
@@ -129,12 +128,11 @@ class MapAndTableVC: UIViewController {
             self.setAnnotations()
             self.setTableContents()
             
-            if let annotations = self.annotations {
-                self.map.addAnnotations(annotations)
-            }
-            
             DispatchQueue.main.async {
                 self.table.reloadData()
+                if let annotations = self.annotations {
+                    self.map.addAnnotations(annotations)
+                }
             }
             
             let date = Date()

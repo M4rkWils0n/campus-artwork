@@ -24,6 +24,13 @@ class ArtworkDescriptionChildVC: UIViewController {
         performSegue(withIdentifier: "toImage", sender: nil)
     }
     
+    
+    @IBAction func descriptionButtonClick(_ sender: Any) {
+    
+        performSegue(withIdentifier: "toArtworkDescription", sender: nil)
+    
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -53,11 +60,19 @@ class ArtworkDescriptionChildVC: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        let nextViewController = segue.destination as! ImageViewController
+        if segue.identifier == "toImage" {
+            
+            let nextViewController = segue.destination as! ImageViewController
+            nextViewController.passedImage = UIImage(data: (viewArtwork?.image!)!)
+            nextViewController.imageName = viewArtwork?.title
         
-        nextViewController.passedImage = UIImage(data: (viewArtwork?.image!)!)
+        } else if segue.identifier == "toArtworkDescription" {
+           
+            let nextViewController = segue.destination as! TextViewController
+            nextViewController.artwork = viewArtwork
+        }
         
-        nextViewController.imageName = viewArtwork?.title
+
         
 
     }
