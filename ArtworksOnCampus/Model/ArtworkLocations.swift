@@ -16,19 +16,16 @@ class ArtworkLocation {
     static var userLocation: CLLocation?
     let artworks: [CoreArtwork]?
     
-    init(locationNote: String, latString: String?, lonString: String?, artworks: [CoreArtwork]?) {
+    
+    init(location: CoreLocations, artworks: [CoreArtwork]?) {
         
-        self.loctionNote = locationNote
-        
-        let lat: Double
-        let lon: Double
-        
-        lat = Double(latString!)!
-        lon = Double(lonString!)!
-        
+        self.loctionNote = location.locationNotes
+        let lat = Double(location.lat!)!
+        let lon = Double(location.lon!)!
         self.coordinateForDistance = CLLocation(latitude: lat, longitude: lon)
         self.artworks = artworks!
     }
+    
     
     func distanceFromLocation() -> Double{
         

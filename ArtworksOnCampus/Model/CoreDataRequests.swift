@@ -9,6 +9,9 @@ import Foundation
 import CoreData
 import UIKit
 
+let artworkImageAddress = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artwork_images/"
+let artworkWebAddress = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus/data.php?class=artworks"
+
 class CoreDataRequests {
   
     static func getDecodeAndSaveArtworkData(urlString: String, completion: @escaping (_ success:Bool) -> Void ) {
@@ -43,7 +46,7 @@ class CoreDataRequests {
                             newArtwork.information = artwork.Information
                             newArtwork.locationNotes = artwork.locationNotes
                             
-                            let stringConcat = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artwork_images/" + artwork.fileName!
+                            let stringConcat = artworkImageAddress + artwork.fileName!
                             let urlString = stringConcat.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
                             newArtwork.fileName = urlString
                             newArtwork.lastModified = artwork.lastModified
@@ -79,7 +82,7 @@ class CoreDataRequests {
                             newArtwork.information = artwork.Information
                             newArtwork.locationNotes = artwork.locationNotes
                             
-                            let stringConcat = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artwork_images/" + artwork.fileName!
+                            let stringConcat = artworkImageAddress + artwork.fileName!
                             let urlString = stringConcat.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
                             newArtwork.fileName = urlString
                             newArtwork.lastModified = artwork.lastModified
@@ -116,7 +119,9 @@ class CoreDataRequests {
         
         session.dataTask(with: url) { (data, response, err) in
             
-            guard let data = data else { return }
+            guard let data = data else {
+                completion(false)
+                return }
 
             do{
                 let downloadedArtworkItems = try JSONDecoder().decode(ArtworkItems.self, from: data)
@@ -135,7 +140,7 @@ class CoreDataRequests {
                                 existingArtwork.information = artwork.Information
                                 existingArtwork.locationNotes = artwork.locationNotes
                                 
-                                let stringConcat = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artwork_images/" + artwork.fileName!
+                                let stringConcat = artworkImageAddress + artwork.fileName!
                                 let urlString = stringConcat.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
                                 existingArtwork.fileName = urlString
                                 existingArtwork.lastModified = artwork.lastModified
@@ -164,7 +169,7 @@ class CoreDataRequests {
                                 newArtwork.information = artwork.Information
                                 newArtwork.locationNotes = artwork.locationNotes
                                 
-                                let stringConcat = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artwork_images/" + artwork.fileName!
+                                let stringConcat = artworkImageAddress + artwork.fileName!
                                 let urlString = stringConcat.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
                                 newArtwork.fileName = urlString
                                 newArtwork.lastModified = artwork.lastModified
@@ -201,7 +206,7 @@ class CoreDataRequests {
                                 newArtwork.information = artwork.Information
                                 newArtwork.locationNotes = artwork.locationNotes
                                 
-                                let stringConcat = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artwork_images/" + artwork.fileName!
+                                let stringConcat = artworkImageAddress + artwork.fileName!
                                 let urlString = stringConcat.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
                                 newArtwork.fileName = urlString
                                 newArtwork.lastModified = artwork.lastModified

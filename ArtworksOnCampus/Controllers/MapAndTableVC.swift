@@ -35,14 +35,14 @@ class MapAndTableVC: UIViewController {
         var assignedAnnotations: [Artworks] = []
         
         for artwork in artworksData {
-            //ToDo: Check how many of these i will need
-            let annotation = Artworks(id: artwork.id, title: artwork.title, artist: artwork.artist, yearOfWork: artwork.yearOfWork, information: artwork.information, locationNotes: artwork.locationNotes, fileName: artwork.fileName, latString: artwork.location?.lat ,lonString: artwork.location?.lon, locationIdentifier: artwork.location?.uuid!, image: artwork.image, groupLocation: artwork.location?.locationNotes)
             
+            let annotation = Artworks(artwork: artwork)
             assignedAnnotations.append(annotation)
         }
         
         annotations =  assignedAnnotations
     }
+    
     
     func setTableContents() {
         let locationData = CoreDataRequests.getLocations()
@@ -51,7 +51,7 @@ class MapAndTableVC: UIViewController {
         for location in locationData {
             
             let artworkArray = Array(location.artworks!) as? Array<CoreArtwork>
-            let artworkLocation = ArtworkLocation(locationNote: location.locationNotes!, latString: location.lat, lonString: location.lon, artworks: artworkArray)
+            let artworkLocation = ArtworkLocation(location: location, artworks: artworkArray)
             locationsForTableContents.append(artworkLocation)
         }
         
@@ -71,12 +71,12 @@ class MapAndTableVC: UIViewController {
         
         // Check for updates
         if let lastUpdate = UserDefaults.standard.value(forKey: "last_update") {
-            urlString = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus/data.php?class=artworks&lastUpdate=\(lastUpdate)"
+            urlString = artworkWebAddress + "&lastUpdate=\(lastUpdate)"
             getArtworkFromLastUpdate(urlString: urlString)
 
         // First ever system run
         } else {
-            urlString = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artworksOnCampus/data.php?class=artworks"
+            urlString = artworkWebAddress
             getArtwork(urlString: urlString)
         }
         
@@ -142,7 +142,7 @@ class MapAndTableVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
     
         map.deselectAnnotation(currentlySelectedAnnotation, animated: true)
-
+        
         if let annotations = self.annotations {
            map.addAnnotations(annotations)
         }
@@ -150,16 +150,7 @@ class MapAndTableVC: UIViewController {
         table.reloadData()
     }
     
-    // Focuses on user location
-    func focusOnUserLocation() {
-        
-        if let userLocation:CLLocation = locationManager.location {
-            
-            let center = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
-            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
-            map.setRegion(region, animated: true)
-        }
-    }
+
     
     // Prepare for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -176,27 +167,6 @@ class MapAndTableVC: UIViewController {
                 nextViewController.annotationData = artworkCollection
             }
         }
-    }
-
-    // gets array of Artwork data from locationIdentifier
-    func getArtworkDataBy(selectedLocationIdentifier: String) -> [Artworks]? {
-        
-        var artworkArry: [Artworks] = []
-        // Filters array with items of same selectedLocationIdentifier
-        if let annotations = self.annotations {
-            artworkArry = annotations.filter { $0.locationIdentifier == selectedLocationIdentifier }
-        }
-        
-        return artworkArry
-    }
-    
-    // Sorts table by section from closest to user to furthest
-    func sortTableContentsByDistance() {
-        
-        if let tableContents = self.tableContents {
-            self.tableContents = tableContents.sorted(by: { $0.distanceFromLocation() < $1.distanceFromLocation() })
-        }
-        
     }
 }
 
@@ -252,6 +222,29 @@ extension MapAndTableVC: MKMapViewDelegate, CLLocationManagerDelegate {
             }
         }
     }
+    
+    // Focuses on user location
+    func focusOnUserLocation() {
+        
+        if let userLocation:CLLocation = locationManager.location {
+            
+            let center = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
+            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
+            map.setRegion(region, animated: true)
+        }
+    }
+    
+    // gets array of Artwork data from locationIdentifier
+    func getArtworkDataBy(selectedLocationIdentifier: String) -> [Artworks]? {
+        
+        var artworkArry: [Artworks] = []
+        // Filters array with items of same selectedLocationIdentifier
+        if let annotations = self.annotations {
+            artworkArry = annotations.filter { $0.locationIdentifier == selectedLocationIdentifier }
+        }
+        
+        return artworkArry
+    }
 }
 
 
@@ -299,18 +292,25 @@ extension MapAndTableVC: UITableViewDelegate, UITableViewDataSource {
     
     // when row of table is clicked data from row is converted to the connected Artwork and segue performed
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        if let artwork = CoreDataRequests.getArtworkFrom(id: tableContents![indexPath.section].artworks![indexPath.row].id) {
-            
-            let selectedArtwork = Artworks(id: artwork.id, title: artwork.title, artist: artwork.artist, yearOfWork: artwork.yearOfWork, information: artwork.information, locationNotes: artwork.locationNotes, fileName: artwork.fileName, latString: artwork.location?.lat ,lonString: artwork.location?.lon, locationIdentifier: artwork.location?.uuid!, image: artwork.image, groupLocation: artwork.location?.locationNotes)
-            
-            var selectedArtworks: [Artworks] = []
-            selectedArtworks.append(selectedArtwork)
-            selectedArtworkCollection = selectedArtworks
-            
-            performSegue(withIdentifier: "toDescription", sender: nil)
-        }
         
+            // gets annonation by id for selected artwork
+            if let selectedArtwork = annotations?.first(where: {$0.id == tableContents![indexPath.section].artworks![indexPath.row].id}) {
+                
+                var selectedArtworkArray: [Artworks] = []
+                selectedArtworkArray.append(selectedArtwork)
+                selectedArtworkCollection = selectedArtworkArray
+                performSegue(withIdentifier: "toDescription", sender: nil)
+            }
+
         return indexPath
+    }
+    
+    // Sorts table by section from closest to user to furthest
+    func sortTableContentsByDistance() {
+        
+        if let tableContents = self.tableContents {
+            self.tableContents = tableContents.sorted(by: { $0.distanceFromLocation() < $1.distanceFromLocation() })
+        }
     }
 }
 

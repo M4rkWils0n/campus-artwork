@@ -25,5 +25,3 @@ struct Artwork: Decodable {
     let fileName: String?
     let lastModified: String?
 }
-
-

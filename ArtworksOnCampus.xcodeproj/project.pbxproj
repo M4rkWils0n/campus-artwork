@@ -41,7 +41,7 @@
 		C1950FF11FD6E0860006E25B /* TextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewController.swift; sourceTree = "<group>"; };
 		C1B6815D1FD4191000C04622 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
 		C1B681611FD4C13C00C04622 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
-		C1C48DC41FC72536006EC9BE /* ArtworksOnCampus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArtworksOnCampus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1C48DC41FC72536006EC9BE /* Campus Artwork.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Campus Artwork.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1C48DC71FC72536006EC9BE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C1C48DC91FC72536006EC9BE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C1C48DCC1FC72536006EC9BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -100,7 +100,7 @@
 		C1C48DC51FC72536006EC9BE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C1C48DC41FC72536006EC9BE /* ArtworksOnCampus.app */,
+				C1C48DC41FC72536006EC9BE /* Campus Artwork.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -150,7 +150,7 @@
 			);
 			name = ArtworksOnCampus;
 			productName = ArtworksOnCampus;
-			productReference = C1C48DC41FC72536006EC9BE /* ArtworksOnCampus.app */;
+			productReference = C1C48DC41FC72536006EC9BE /* Campus Artwork.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -363,7 +363,7 @@
 				INFOPLIST_FILE = ArtworksOnCampus/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.m4rkwils0n.UoL.ArtworksOnCampus;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Campus Artwork";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -378,7 +378,7 @@
 				INFOPLIST_FILE = ArtworksOnCampus/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.m4rkwils0n.UoL.ArtworksOnCampus;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Campus Artwork";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
