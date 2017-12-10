@@ -11,7 +11,7 @@ import MapKit
 
 class ArtworkLocation {
     
-    let loctionNote: String?
+    let locationNote: String?
     let coordinateForDistance: CLLocation
     static var userLocation: CLLocation?
     let artworks: [CoreArtwork]?
@@ -19,7 +19,7 @@ class ArtworkLocation {
     
     init(location: CoreLocations, artworks: [CoreArtwork]?) {
         
-        self.loctionNote = location.locationNotes
+        self.locationNote = location.locationNotes
         let lat = Double(location.lat!)!
         let lon = Double(location.lon!)!
         self.coordinateForDistance = CLLocation(latitude: lat, longitude: lon)

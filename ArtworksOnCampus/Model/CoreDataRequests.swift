@@ -14,15 +14,26 @@ let artworkWebAddress = "https://cgi.csc.liv.ac.uk/~phil/Teaching/COMP327/artwor
 
 class CoreDataRequests {
   
+    // Retrives, decodes and saves artwork
+    // Completion handler to inform calling method when finished
+    // Completiom handler will return true if data is retrieved
+    // Completion handler will return false if either url is not correct, no connection to download data or JSON nor decoded
     static func getDecodeAndSaveArtworkData(urlString: String, completion: @escaping (_ success:Bool) -> Void ) {
         
-        guard let url = URL(string: urlString) else { return }
+        guard let url = URL(string: urlString)
+            else {
+                completion(false)
+                return
+        }
         
         let session = URLSession.shared
         
         session.dataTask(with: url){ (data, response, err) in
     
-            guard let data = data else { return }
+            guard let data = data else {
+                completion(false)
+                return
+            }
          
             do{
                 let downloadedArtworkItems = try JSONDecoder().decode(ArtworkItems.self, from: data)
@@ -105,7 +116,9 @@ class CoreDataRequests {
             completion(true)
                 
             } catch let jsonErr {
-                    print("Error decoding JSON", jsonErr)
+                
+                completion(false)
+                print("Error decoding JSON", jsonErr)
             }
         }.resume()
     }
@@ -234,16 +247,9 @@ class CoreDataRequests {
                 print("Error decoding JSON", jsonErr)
             }
         }.resume()
-        
-        
     }
     
     
-    
-    
-    
-    
-
     // Checks to see if Artwork Exists in core data
     private static func doesArkworkExistWith(id: String) -> Bool {
         

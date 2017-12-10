@@ -95,22 +95,37 @@ class MapAndTableVC: UIViewController {
     
         CoreDataRequests.getDecodeAndSaveArtworkData(urlString: urlString, completion: { (success) in
             
-            self.setAnnotations()
-            self.setTableContents()
-            
-            DispatchQueue.main.async {
-                self.table.reloadData()
-                if let annotations = self.annotations {
-                    self.map.addAnnotations(annotations)
+            if success {
+                
+                self.setAnnotations()
+                self.setTableContents()
+                
+                DispatchQueue.main.async {
+                    self.table.reloadData()
+                    if let annotations = self.annotations {
+                        self.map.addAnnotations(annotations)
+                    }
                 }
+                
+                let date = Date()
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd"
+                let formattedDate = formatter.string(from: date)
+                
+                // Current date stored in user defaults 
+                UserDefaults.standard.setValue(formattedDate, forKey: "last_update")
+            
+            } else {
+                
+                // Alert to advise the App requires internet connection to download map data for the artwork
+                let alert = UIAlertController(title: "Alert", message: "Please connect the device to the Internet and restart the App", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
+                    NSLog("The \"OK\" alert occured.")
+                }))
+                self.present(alert, animated: true, completion: nil)
+                
+                print("No data")
             }
-            
-            let date = Date()
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
-            let formattedDate = formatter.string(from: date)
-            
-            UserDefaults.standard.setValue(formattedDate, forKey: "last_update")
         })
     }
     
@@ -258,7 +273,7 @@ extension MapAndTableVC: UITableViewDelegate, UITableViewDataSource {
     
     // sets the title for specfic header
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return tableContents![section].loctionNote
+        return tableContents![section].locationNote
     }
     
     // Sets number of sections in table
